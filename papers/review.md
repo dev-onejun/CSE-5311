@@ -1,3 +1,7 @@
+---
+usemathjax: true
+---
+
 # Approximation of Computational Cost: A Review of Algorithm Design and Analysis
 
 $$
@@ -146,6 +150,8 @@ def binary_serach(list, min, max, key):
 ```
 
 With the step of Binary Search, the time complexity of the algorithm $O(\log{n})$ is derived. The algorithm is efficient in terms of time complexity, but it requires the list to be sorted. The algorithm is not suitable for the unsorted list.
+
+#### E. Sorting Algorithms
 
 
 ### References
