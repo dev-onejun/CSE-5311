@@ -41,6 +41,7 @@ O(1) & O(\log{N}) & O(N) & O(N \log{N}) & O(N^2) & O(N^3) & O(2^N) & O(N!) \\
 Constant & Logarithmic & Linear & N \times \log{N} & Quadratic & Cubic & Exponential & Factorial
 \end{array}
 $$
+
 $\text{Fig 1. The Complexity of Big O Notation}$
 
 This relationship between the original function $T(n)$ and the function in *Big O Notation* $F(n)$ is referred as $C \times F(n)$ is asymptotically bigger than $T(n)$ [[1](#mjx-eqn-1), [2](#mjx-eqn-2)]. The relationship derives to the formal definition of *Big O Notation*. The formal definition of *Big O Notation* is that there are variables constant $C$ and $n$ where $n \ge n_0$, which are met the formula $T(n) \le C \times F(n)$ for the notation of $T(n) = O(F(n))$. Take $T(n) = 3n^2 + 4$ for example. The *Big O Notation* of $T(n)$ is $O(n^2)$ so that $F(n)$ becomes $n^2$. Are there any variables of $C$ and $n$ which satisfy the formula $T(n) \le C \times F(n)$? The smallest $C$ which may meet the requirement is 4. With the derived formula $3n^2 + 4 \le 4 \times n^2$, the smallest $n$ which meet the formula is 2. After 2, the formula is always true.
@@ -153,11 +154,221 @@ With the step of Binary Search, the time complexity of the algorithm $O(\log{n})
 
 #### E. Sorting Algorithms
 
+*Sorting Algorithms* are algorithms that sort the elements in the list in ascending or descending order. **1) Insertion Sort** is a simple algorithm that sorts the list by inserting the elements one by one. The algorithm sequentially pick a `key` and compare the `key` from the adjacent previous elements to the first element, inserting the `key` if the `key` is smaller than the element. The best case is $O(n)$ when the list is already sorted, and the worst case is $O(n^2)$ when the list is sorted in reverse order. The algorithm is in-place algorithm which makes the list sorted without extra space. Pseudo code of the algorithm is
+
+``` Python
+def insertion_sort(list):
+    for i in range(1, len(list)):
+        key = list[i]
+        j = i - 1
+
+        while j >= 0 and key < list[j]:
+            list[j + 1] = list[j]
+            j -= 1
+
+        list[j + 1] = key
+```
+
+**2) Merge Sort** is a divide-and-conquer algorithm that divides the list into two halves, sorts the two halves, and merges the two halves. The algorithm is efficient in terms of time complexity, $O(n \log{n})$, than the Insertion Sort. Yet, the algorithm is inefficient in terms of space complexity due to its out-of-place feature. Pseudo code of the algorithm [[3](#mjx-eqn-3)] is
+
+``` Python
+def merge(arr, left, mid, right):
+    n1 = mid - left + 1
+    n2 = right - mid
+
+    # Create temp arrays
+    L = [0] * n1
+    R = [0] * n2
+
+    # Copy data to temp arrays L[] and R[]
+    for i in range(n1):
+        L[i] = arr[left + i]
+    for j in range(n2):
+        R[j] = arr[mid + 1 + j]
+
+    i = 0  # Initial index of first subarray
+    j = 0  # Initial index of second subarray
+    k = left  # Initial index of merged subarray
+
+    # Merge the temp arrays back
+    # into arr[left..right]
+    while i < n1 and j < n2:
+        if L[i] <= R[j]:
+            arr[k] = L[i]
+            i += 1
+        else:
+            arr[k] = R[j]
+            j += 1
+        k += 1
+
+    # Copy the remaining elements of L[],
+    # if there are any
+    while i < n1:
+        arr[k] = L[i]
+        i += 1
+        k += 1
+
+    # Copy the remaining elements of R[],
+    # if there are any
+    while j < n2:
+        arr[k] = R[j]
+        j += 1
+        k += 1
+
+def merge_sort(arr, left, right):
+    if left < right:
+        mid = (left + right) // 2
+
+        merge_sort(arr, left, mid)
+        merge_sort(arr, mid + 1, right)
+        merge(arr, left, mid, right)
+```
+
+**3) Selection Sort** is a simple algorithm that sorts the list by selecting an index and searching the suited element in the index. In other words, the algorithm selects the smallest element in each iteration with the partial list and inserts the element to the index. The difference from the Insertion Sort is that the Insertion Sort inserts an element to suited index with the already sorted list. $(O(n^2))$ is the time complexity of the algorithm. In terms of space complexity, the algorithm is in-place algorithm. Pseudo code of the algorithm is
+
+``` Pseudo code
+Selection Sort(list, n)
+    for i = 0 to n - 1
+        min_index = i
+        for j = i + 1 to n
+            if list[j] < list[min_index]
+                min_index = j
+        swap(list[i], list[min_index])
+    return list
+```
+
+In summary, at the best case, the runtime comparison of the algorithms is insertion ($O(n)$) $\lt$ merge ($O(n\log n)$ $\lt$ selection ($O(n^2)$). At the worst case, the fastest algorithms is merge ($O(n\log n)$).
+
+(For the test, do not need to memorize Pseudo code. Just memorize how each algorithm works.)
+
+**4) Bubble Sort**
+
+**Bubble sort** is to compare adjacent elements and swap them if they are in the wrong order. The algorithm repeats the process until no swaps are needed. The time complexity of the bubble sort algorithm is $O(n^2)$. The algorithm is an in-place sorting algorithm.
+
+```python
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
+```
+
+**5) Quick Sort**
+
+**Quick sort** is adopted from the divide-and-conquer approach. The algorithm selects a pivot element and partitions the array into two sub-arrays according to the pivot element, repeating the process recursively for each sub-array until the array is sorted. When the sub-arrays have only one element or are empty, they are considered sorted. The pivot element is picked from the first, last, or random element of the array. The time complexity of the quick sort algorithm is $O(n \log n)$ in the best and average cases, and $O(n^2)$ in the worst case when the array is already sorted and the pivot is always the smallest or largest element. The algorithm is an in-place algorithm.
+
+```python
+def quick_sort(arr, low, high):
+    if low < high:
+        adjusted_pivot_index = partition(arr, low, high)
+        quick_sort(arr, low, pi-1)
+        quick_sort(arr, pi+1, high)
+    return arr
+
+def partition(arr, low, high):
+    pivot = arr[high] # use the last element as the pivot
+    i = low - 1 # guarantee a proper initial state that all elements before i are less than the pivot
+    for j in range(low, high): # after the loop, all elements before i are less than the pivot
+        if arr[j] < pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i+1], arr[high] = arr[high], arr[i+1] # swap the pivot with the element at i+1 since only i elements are less than the pivot. As a result, the range [low, i] is sorted.
+    return i+1
+```
+
+**Three-way Quick Sort Algorithm** is a variation of the quick sort algorithm that particularly effective when the array contains many duplicate elements by minimizing unnecessary comparisions and swaps of duplicate elements. The key idea is that, instead of partitioning the array into two sub-arrays, the algorithm partitions the array into three parts: elements less than the pivot, element equal to the pivot, and elements greater than the pivot. Recursively splitting the 'less than' and 'greater than' parts into three sub-arrays, the algorithm sorts the array with the already sorted 'equal to' part. The time complexity of the three-way quick sort algorithm is still $O(n \log n)$ in the best and average cases, and $O(n^2)$ in the worst case. The algorithm is an in-place algorithm.
+
+```python
+def three_way_quicksort(arr, low, high):
+    if low >= high:
+        return
+
+    lt, gt = partition(arr, low, high)
+    three_way_quicksort(arr, low, lt-1)
+    three_way_quicksort(arr, gt+1, high)
+
+def partition(arr, low, high):
+    pivot = arr[low]
+    lt, gt = low, high
+    i = low
+    while i <= gt:
+        if arr[i] < pivot:
+            arr[lt], arr[i] = arr[i], arr[lt]
+            lt += 1
+            i += 1
+        elif arr[i] > pivot:
+            arr[gt], arr[i] = arr[i], arr[gt]
+            gt -= 1
+        else:
+            i += 1
+    return lt, gt
+```
+
+**Median-of-Three Quick Sort Algorithm** is another variation of the quick sort algorithm that aims to improve the performance of the quick sort algorithm and to reduce the likelihood of the worst-case scenarios by strategically selecting the pivot element. Instead of choosing the first, last, or random element as the pivot, the algorithm selects the median among the three elements: the first, middle, and last elements of the array, as the pivot. The partition function is the same as the classic quick sort algorithm. Although the strategy is effective, the time complexity of the median-of-three quick sort algorithm is still $O(n^2)$ in the worst case and $O(n \log n)$ in the best and average cases. The algorithm is an in-place algorithm.
+
+```python
+def median_of_three_quicksort(arr, low, high):
+    if low < high:
+        pivot_index = median_of_three(arr, low, high)
+        arr[pivot_index], arr[high] = arr[high], arr[pivot_index]
+
+        adjusted_pivot_index = partition(arr, low, high) # Same partition function as the classic quick sort algorithm
+        median_of_three_quicksort(arr, low, adjusted_pivot_index-1)
+        median_of_three_quicksort(arr, adjusted_pivot_index+1, high)
+
+def median_of_three(arr, low, high):
+    mid = (low + high) // 2
+
+    if arr[low] > arr[mid]:
+        arr[low], arr[mid] = arr[mid], arr[low]
+    if arr[low] > arr[high]:
+        arr[low], arr[high] = arr[high], arr[low]
+    if arr[mid] > arr[high]:
+        arr[mid], arr[high] = arr[high], arr[mid]
+
+    return mid
+```
+
+**Quick Select Algorithm** is the other variation of the quick sort algorithm that aims to find the kth smallest element in an unsorted array. The situation, called the kth smallest element problem, has three approaches: **1. Sort the array using the merge(quick) sort**. The kth smallest element can be found in $O(n \log n)$ time complexity with constant access time. **2. Find the smallest element in each iteration**. In order to find the smallest element in the array, $O(n)$ time complexity is required. The approach repeats the process k times to find the kth smallest element so that the approach is efficient only when k is small. **3. Quick Select Algorithm** works by selecting a pivot, partitioning the array, and then determining if the kth smallest element is in the left, right partition, or the pivot itself, repeating the process until finding the kth smallest element rather than sorting the entire array. This approach has a $O(n)$ time complexity in the best and average cases better than the O(n \log n) time complexity of the merge sort algorithm. However, similar to the quick sort algorithm, the quick select algorithm has a $O(n^2)$ time complexity in the worst case when the pivot is consistently the smallest or largest element in the sorted array. (Since the problem is in the situation where the array is unsorted, the worst-case scenario is less likely to occur.)
+
+```python
+def quick_select(arr, low, high, k):
+    if low <= high:
+        adjusted_pivot_index = partition(arr, low, high)
+
+        if adjusted_pivot_index == k - 1:
+            return arr[adjusted_pivot_index]
+        elif adjusted_pivot_index > k - 1: # The kth smallest element is in the left sub-array
+            return quick_select(arr, low, adjusted_pivot_index - 1, k)
+        else: # The kth smallest element is in the right sub-array
+            return quick_select(arr, adjusted_pivot_index + 1, high, k)
+
+    return None
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i], arr[high] = arr[high], arr[i]
+    return i
+```
+
+#### F. Inversion Count Problem
+
+An inversion refers to a state when a sequence of numbers is not in the usual order of whole arrays, either ascending or descending order. The Inversion Count Problem is to find the number of inversions in an array. For example, the sequence {2, 4, 1, 3, 5} has three inversions: (2, 1), (4, 1), (4, 3) among 10 possible pairs where ($a$, $b$) denotes that $a$ is before $b$ in the sequences. Technically, if $i < j$ and $A[i] > A[j]$, then the pair ($i$, $j$) is an inversion of the array $A$.
+
+To tackle this problem, Five approaches are introduced: **1. Brute Force (Naive and Simple Approach)** - Comparing all pairs of elements in the array, count the number of inversions. The approach has a $O(n^2)$ time complexity. **2. Merge Sort Algorithm (Divide and Conquer Approach)** - During sorting the array with the merge sort algorithm, count the number of inversions. The approach has a $O(n \log n)$ time complexity same as the merge sort algorithm. **3. Bubble Sort Algorithm** - Count the number of inversions while sorting the array with the bubble sort algorithm. While the approach has a $O(n^2)$ time complexity in the worst case when the array is sorted in reverse order, $O(n)$ time complexity in the best case when the array is already sorted. **4. Quick Sort Algorithm (Divide and Conquer Approach)** - Count the number of inversions while sorting the array with the quick sort algorithm. The approach has a $O(n \log n)$ time complexity.
 
 ### References
 
-$\tag*{}\label{1} \text{[1] Formal Definition of Big O Notation, Youtube Video, https://www.youtube.com/watch?v=T8_x0yhON-4, accessed in Aug. 25, 2024}$
-$\tag*{}\label{2} \text{[2] Paul E. Black, "big-O notation", in Dictionary of Algorithms and Data Structures [online], Paul E. Black, ed. 6 September 2019. (accessed in Aug. 25, 2024) Available from: https://www.nist.gov/dads/HTML/bigOnotation.html}$
+$$\tag*{}\label{1} \text{[1] Formal Definition of Big O Notation, Youtube Video, https://www.youtube.com/watch?v=T8_x0yhON-4, accessed in Aug. 25, 2024}$$
+$$\tag*{}\label{2} \text{[2] Paul E. Black, "big-O notation", in Dictionary of Algorithms and Data Structures [online], Paul E. Black, ed. 6 September 2019. (accessed in Aug. 25, 2024) Available from: https://www.nist.gov/dads/HTML/bigOnotation.html}$$
+$$\tag*{}\label{3} \text{[3] https://www.geeksforgeeks.org/merge-sort/, accessed in Sep. 11, 2024}$$
 
 ### Appendix
 
