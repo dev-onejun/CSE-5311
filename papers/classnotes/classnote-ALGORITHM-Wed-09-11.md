@@ -31,7 +31,7 @@ T(n) = n + T(\frac{n}{5}) + T(\frac{7n}{10}) \\
 n + T(\frac{n}{5}) + T(\frac{7n}{10}) \le C \times n \\
 n + C \times \frac{n}{5} + C \times \frac{7n}{10} \le C \times n \\
 1 + \frac{C}{5} + \frac{7C}{10} \le C \\
-\right C = 10
+\to C = 10
 $$
 
 The runtime is not lienar time (증명가능) since the constnat C ....

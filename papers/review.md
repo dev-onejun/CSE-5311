@@ -1,7 +1,3 @@
----
-usemathjax: true
----
-
 # Approximation of Computational Cost: A Review of Algorithm Design and Analysis
 
 $$
@@ -17,7 +13,7 @@ $$
 \mathbf{\text{Acronym and Abbreviation}} \\
 \begin{array}{|c|c|}
 \hline
-\text{} & \text{} \\
+\text{Binary Search Tree (BST)} & \text{} \\
 \hline
 \text{} & \text{} \\
 \hline
@@ -331,7 +327,7 @@ def median_of_three(arr, low, high):
     return mid
 ```
 
-**Quick Select Algorithm** is the other variation of the quick sort algorithm that aims to find the kth smallest element in an unsorted array. The situation, called the kth smallest element problem, has three approaches: **1. Sort the array using the merge(quick) sort**. The kth smallest element can be found in $O(n \log n)$ time complexity with constant access time. **2. Find the smallest element in each iteration**. In order to find the smallest element in the array, $O(n)$ time complexity is required. The approach repeats the process k times to find the kth smallest element so that the approach is efficient only when k is small. **3. Quick Select Algorithm** works by selecting a pivot, partitioning the array, and then determining if the kth smallest element is in the left, right partition, or the pivot itself, repeating the process until finding the kth smallest element rather than sorting the entire array. This approach has a $O(n)$ time complexity in the best and average cases better than the O(n \log n) time complexity of the merge sort algorithm. However, similar to the quick sort algorithm, the quick select algorithm has a $O(n^2)$ time complexity in the worst case when the pivot is consistently the smallest or largest element in the sorted array. (Since the problem is in the situation where the array is unsorted, the worst-case scenario is less likely to occur.)
+**Quick Select Algorithm** is the other variation of the quick sort algorithm that aims to find the kth smallest element in an unsorted array. The situation, called **the kth smallest element problem** or **the linear selection problem**, has four approaches: **1. Sort the array using the merge(quick) sort**. The kth smallest element can be found in $O(n \log n)$ time complexity with constant access time. **2. Find the smallest element in each iteration**. In order to find the smallest element in the array, $O(n)$ time complexity is required. The approach repeats the process k times to find the kth smallest element so that the approach is efficient only when k is small. **3. Quick Select Algorithm** works by selecting a pivot, partitioning the array, and then determining if the kth smallest element is in the left, right partition, or the pivot itself, repeating the process until finding the kth smallest element rather than sorting the entire array. This approach has a $O(n)$ time complexity in the best and average cases better than the O(n \log n) time complexity of the merge sort algorithm. However, similar to the quick sort algorithm, the quick select algorithm has a $O(n^2)$ time complexity in the worst case when the pivot is consistently the smallest or largest element in the sorted array. (Since the problem is in the situation where the array is unsorted, the worst-case scenario is less likely to occur.)
 
 ```python
 def quick_select(arr, low, high, k):
@@ -358,17 +354,279 @@ def partition(arr, low, high):
     return i
 ```
 
+**4. Median of Medians Algorithm**
+
+**4. Median of Medians Algorithm**, also known as **Deterministic Linear Time Selection Algorithm**, is notable for achieving $O(n)$ time complexity for findding the k-th smallest element in an unsorted array. The algorithm is based on the divide-and-conquer strategy. The algorithm is as follows: **0)** if the number of arrays $n$ is less than or equal to 5, sort the array and return the k-th smallest element. **1)** Divide the array into groups of 5 elements. **2)** Find the median of each group consisted of 5 elements by sorting the each group. **3)** Among the medians of each group, find the medians of the medians. **4)** Use the median of medians as a pivot to partition the array into elements smaller than the pivot and elements greater than the pivot. **5)** Check if the pivot is the k-th smallest element. If true, return the pivot. If false, recursively find the k-th smallest element in the left or right partition.
+
+```python
+def median_of_medians(arr, k):
+    if len(arr) <= 5:
+        return sorted(arr)[k - 1]
+
+    # Divide the array into groups of 5 elements
+    groups = [sorted(arr[i:i+5]) for i in range(0, len(arr), 5)]
+    medians = [group[len(group) // 2] for group in groups]
+
+    # Find the median of medians
+    pivot = median_of_medians(medians, len(medians) // 2)
+
+    # Partition the array into two parts
+    low = [x for x in arr if x < pivot]
+    high = [x for x in arr if x > pivot]
+
+    # Recursively find the k-th smallest element, determining the rank of the pivot
+    if k <= len(low):
+        return median_of_medians(low, k)
+    elif k > len(arr) - len(high):
+        return median_of_medians(high, k - (len(arr) - len(high)))
+    else:
+        return pivot
+```
+
+Time complexity of the Median of Medians Algorithm is analyzed as follows: **1)** Sorting each group of 5 elements to find the median takes $O(5 \times \frac{n}{5}) = O(n)$. **2)** Finding the median of the medians takes $O(\frac{n}{5})$. **3)** Since the pivot is guaranteed to be a good pivot, at least 30% of the elements are less than the pivot and at least another 30% of the elements are greater than the pivot, the recursion occurs on at most 70% of the elements. Therefore,
+
+$$
+T(n) = n + T(\frac{n}{5}) + T(\frac{7n}{10}) \\
+\to O(n) = n
+$$
+
 #### F. Inversion Count Problem
 
 An inversion refers to a state when a sequence of numbers is not in the usual order of whole arrays, either ascending or descending order. The Inversion Count Problem is to find the number of inversions in an array. For example, the sequence {2, 4, 1, 3, 5} has three inversions: (2, 1), (4, 1), (4, 3) among 10 possible pairs where ($a$, $b$) denotes that $a$ is before $b$ in the sequences. Technically, if $i < j$ and $A[i] > A[j]$, then the pair ($i$, $j$) is an inversion of the array $A$.
 
 To tackle this problem, Five approaches are introduced: **1. Brute Force (Naive and Simple Approach)** - Comparing all pairs of elements in the array, count the number of inversions. The approach has a $O(n^2)$ time complexity. **2. Merge Sort Algorithm (Divide and Conquer Approach)** - During sorting the array with the merge sort algorithm, count the number of inversions. The approach has a $O(n \log n)$ time complexity same as the merge sort algorithm. **3. Bubble Sort Algorithm** - Count the number of inversions while sorting the array with the bubble sort algorithm. While the approach has a $O(n^2)$ time complexity in the worst case when the array is sorted in reverse order, $O(n)$ time complexity in the best case when the array is already sorted. **4. Quick Sort Algorithm (Divide and Conquer Approach)** - Count the number of inversions while sorting the array with the quick sort algorithm. The approach has a $O(n \log n)$ time complexity.
 
+#### G. Tree Data Structure
+
+Tree is a data structure that consists of nodes with a parent and child relationship. The top node is called the root of the tree, and the nodes that have no children are called leaf nodes. The path is a sequence of nodes from the root to a target node. Visiting a node means checking the value of the node, and traversing a tree means passing through the nodes in a specific order. Keys are the values stored in the nodes.
+
+The depth of a node is the length of the path from the root to the node. The level of a node is the depth of the node plus one ($\text{level} = \text{depth} + 1$). **(I googled about it, but it seems that every document say differently. Also, the lecture node assumed that the level of the root node is 0 and the depth of the root is the number of elements of the path which is 1) IS IT TRUE? THEN, THE LEVEL OF THE ROOT IS 1 AND THE DEPTH OF THE ROOT IS 0?**
+The height of the tree is the maximum depth of the tree ($\text{height} = \max(\text{depth})$). In other words, the height of the tree is the longest path from the root to a leaf node.
+
+Properties of the tree data structure are that \
+$\quad\mathbf{\text{1)}}$ it stores data naturally in a hierarchical form. \
+$\quad\mathbf{\text{2)}}$ it provides moderate access and search, quicker than linked lists but slower than arrays. \
+$\quad\mathbf{\text{3)}}$ it provides moderate insertion and deletion, quicker than arrays but slower than unordered linked lists. \
+$\quad\mathbf{\text{4)}}$ it does not have an upper bound on the number of nodes like linked lists and unlike arrays.
+
+**1. Binary Tree**
+
+Binary tree is a type of tree data structure in which each node has at most two children, normally referred to as the left child and the right child. The binary tree does not have any specific order in its stored values so that $O(n)$ time complexity is taken to find the maximum, minimum, or any specific value in the binary tree by traversing all the nodes.
+
+**2. Heap**
+
+A **Complete Binary Tree** is a binary tree in which every level, except for the last level, is completely filled, and nodes in the last level are filled left-first to right meaning that all nodes must be as far left as possible. For example, the left tree on the below is a complete binary tree, but the right tree is not.
+
+```plaintext
+    1           1
+   / \         / \
+  2   3       2   3
+ / \         /   /
+4   5       4   5
+```
+
+A **Heap** is a complete binary tree that satisfies a property that the value of parent nodes are greater than or equal to child node values in a max heap and the value of parent nodes are less than or equal to child node values in a min heap. The root node is the maximum value in the max heap and the minimum value in the min heap. Specifically, a heap satisfies the following four properties: \
+$\quad\mathbf{\text{1)}}$ The highest / lowest element is always at the root. \
+$\quad\mathbf{\text{2)}}$ Nodes are partially sorted, meaning that the parent node is greater / smaller than the child nodes. (Might not related to levels) \
+$\quad\mathbf{\text{3)}}$ The tree is a complete binary tree filled from left to right. \
+$\quad\mathbf{\text{4)}}$ The height of the tree is $O(\log n)$.
+
+These heaps are useful when repeatedly finding the maximum or minimum value in the data structure. The time complexity of finding the maximum or minimum value in the heap is $O(1)$ since the value is always at the root.
+
+Heaps are represented as arrays in which a node at index $i$ has children at indices $2i$ for the left child and $2i + 1$ for the right child. The parent of the node at index $i$ is at index $\left\lfloor\frac{i}{2}\right\rfloor$. Following figure shows the array representation of a heap.
+
+![Heap as array representation](http://www.cse.hut.fi/en/research/SVG/TRAKLA2/tutorials/heap_tutorial/KekoTRAKLA-89_1.gif) \
+$\text{Fig. #. Heap as Array Representation}$ [[4](#mjx-eqn-4)]
+
+In this review, the operations of a heap is covered in the perspective of a max heap. The operations that are performed on a heap are **1)** insertion, **2)** deletion, and **3)** heapify. A heap is only interested in the root so that deletion in a heap means removing the root node.
+
+$$
+\begin{array}{c|c}
+\begin{aligned}
+& \text{# } O(\log n) \text{ time complexity (the height of the heap)} \\
+& \text{Insert(heap, value): } \\
+& \qquad \text{# Append the value to the end of the heap} \\
+& \qquad \text{heap.append(value)} \\
+\\
+& \qquad \text{# Bubble up the new value to restore the heap property} \\
+& \qquad \text{index = len(heap) - 1} \\
+& \qquad \text{parent = index // 2 # assume that the root starts from the index 1} \\
+\\
+& \qquad \text{while parent >= 1 and heap[parent] < heap[index]} \\
+& \qquad \qquad \text{heap[parent], heap[index] = heap[index], heap[parent]} \\
+\\
+& \qquad \qquad \text{index = parent} \\
+& \qquad \qquad \text{parent = index // 2} \\
+\end{aligned}
+&
+\begin{aligned}
+& \text{# } O(\log n) \text{ time complexity (the height of the heap)} \\
+& \text{Delete(heap): } \\
+& \qquad \text{if heap is empty} \\
+& \qquad \qquad \text{return None} \\
+\\
+& \qquad \text{# Swap the root with the last element} \\
+& \qquad \text{heap[1], heap[-1] = heap[-1], heap[1]} \\
+& \qquad \text{max_value = heap.pop()} \\
+\\
+& \qquad \text{# Bubble down the root to restore the heap property} \\
+& \qquad \text{index = 1} \\
+& \qquad \text{left = 2 * index} \\
+& \qquad \text{right = 2 * index + 1} \\
+\\
+& \qquad \text{while left < len(heap)} \\
+& \qquad \qquad \text{child = left} \\
+& \qquad \qquad \text{if right < len(heap) and heap[right] > heap[left]} \\
+& \qquad \qquad \qquad \text{child = right} \\
+\\
+& \qquad \qquad \text{if child == index} \\
+& \qquad \qquad \qquad \text{break} \\
+\\
+& \qquad \qquad \text{if heap[index] < heap[child]} \\
+& \qquad \qquad \qquad \text{heap[index], heap[child] = heap[child], heap[index]} \\
+\\
+& \qquad \qquad \text{index = child} \\
+& \qquad \qquad \text{left = 2 * index} \\
+& \qquad \qquad \text{right = 2 * index + 1} \\
+\end{aligned}
+\end{array} \\
+\begin{array}{c|c}
+\hline
+\begin{aligned}
+& \text{# } O(n) \text{ time complexity (the number of the nodes)} \\
+& \text{BuildMaxHeap(heap): } \\
+& \qquad \text{size = len(heap)} \\
+& \qquad \text{for i in range(size // 2, 0, -1)} \\
+& \qquad \qquad \text{Heapify(heap, i)} \\
+\end{aligned}
+&
+\begin{aligned}
+& \text{# } O(\log n) \text{ time complexity (the height of the heap)} \\
+& \text{Heapify(heap, index): } \\
+& \qquad \text{largest = index} \\
+& \qquad \text{left = 2 * index} \\
+& \qquad \text{right = 2 * index + 1} \\
+\\
+& \qquad \text{# Check if the left child exists and is greater than the current largest} \\
+& \qquad \text{if left < len(heap) and heap[left] > heap[largest]} \\
+& \qquad \qquad \text{largest = left} \\
+\\
+& \qquad \text{# Check if the right child exists and is greater than the current largest} \\
+& \qquad \text{if right < len(heap) and heap[right] > heap[largest]} \\
+& \qquad \qquad \text{largest = right} \\
+\\
+& \qquad \text{# Swap the current node with the largest node} \\
+& \qquad \text{if largest != index} \\
+& \qquad \qquad \text{heap[index], heap[largest] = heap[largest], heap[index]} \\
+& \qquad \qquad \text{Heapify(heap, largest)} \\
+\end{aligned}
+\end{array}
+$$
+
+Heap sort is a sorting algorithm that uses a heap data structure. With the heap (regardless eitehr max heap or min heap), constructing a heap and popping the root element iteratively, the heap sort algorithm sorts the input data with $O(n \log n)$ time complexity.
+
+**3. Disjoint Set**
+
+A disjoint set, also known as a union-find data structure, is a data structure that stores a collection of disjoint sets, allowing for efficient merging and finding of the sets. The disjoint set data structure consists of items which store an id and a parent pointer. The pointers of the elements are arranged to form one or more trees where each tree represents a set.
+
+![Disjoint set](https://algocoding.wordpress.com/wp-content/uploads/2014/09/uf2_union3.png) \
+$\text{Fig #. Disjoint Set}$
+
+The operations that performed on a disjoint set are **1)** make-set, **2)** find-set, and **3)** union. The make-set operation creates a new set with a single element. The find-set operation returns the representative of the set that contains the element by following the chain of parent pointers from the target element until the element whose parent is itself (the root). The union operation merges two sets into a single set. Make-set operation shows $O(1)$ time complexity, find-set operation presents $O(n)$ time complexity, and union operation has $O(n)$ time complexity due to the find-set operations.
+
+$$
+\begin{array}{c|c}
+\begin{aligned}
+& \text{MakeSet(x):} \\
+& \qquad \text{if x is not already present:} \\
+& \qquad \qquad \text{add x to the disjoint set tree} \\
+& \qquad \qquad \text{x.parent = x} \\
+& \qquad \qquad \text{# Union by rank} \\
+& \qquad \qquad \text{x.rank = 0}
+\end{aligned}
+&
+\begin{aligned}
+& \text{Find(x):} \\
+& \qquad \text{if x.parent != x} \\
+& \qquad \qquad \text{# Path Compression} \\
+& \qquad \qquad \text{x.parent = Find(x.parent)} \\
+& \qquad \text{return x.parent}
+\end{aligned}
+&
+\begin{aligned}
+& \text{Union(x, y):} \\
+& \qquad \text{rootX, rootY = Find(x), Find(y)} \\
+\\
+& \qquad \text{if rootX == rootY:} \\
+& \qquad \qquad \text{return} \\
+\\
+& \qquad \text{if rootX.rank < rootY.rank:} \\
+& \qquad \qquad \text{rootX.parent = rootY} \\
+& \qquad \text{elif rootX.rank > rootY.rank:} \\
+& \qquad \qquad \text{rootY.parent = rootX} \\
+& \qquad \text{else:} \\
+& \qquad \qquad \text{rootY.parent = rootX} \\
+& \qquad \qquad \text{rootX.rank += 1}
+\end{aligned}
+\end{array}
+$$
+
+In order to efficient implementation, the disjoint set uses union by rank and path compression techniques. Union by rank keeps the tree shallow by always attaching the smaller tree to the root of the larger tree. Path compression makes all elements in the path from the target element to the root point directly to the root, drastically reducing the time complexity of future find operations.
+
+**4. Binary Search Tree (BST)**
+
+BST is a binary tree that satisfies the following properties: \
+$\quad\mathbf{\text{1)}}$ The number of children for each node is at most two. \
+$\quad\mathbf{\text{2)}}$ The left subtree of a node contains only nodes with keys less than the node's key. \
+$\quad\mathbf{\text{3)}}$ The right subtree of a node contains only nodes with keys greater than the node's key. \
+$\quad\mathbf{\text{4)}}$ Both the left and right subtrees must also be Binary Search Trees. \
+$\quad\mathbf{\text{5)}}$ Duplicate nodes are now allowed in the tree.
+
+The operations performed on a BST are **1)** insertion, **2)** search, **3)** pre-order traversal, **4)** in-order traversal, and **5)** post-order traversal. When $h$ is the height of the tree, search(find), insertion, and deletion operations take $O(h)$ time complexity. The maximum value is the rightmost node, and the minimum value is the leftmost node in the BST. The algorithms for search and checking if the tree is a binary search tree are as follows:
+
+$$
+\begin{array}{c|c}
+\begin{aligned}
+& \text{Find (value, root):} \\
+& \qquad \text{if root is empty} \\
+& \qquad \qquad \text{return False} \\
+& \qquad \text{if root.value == value} \\
+& \qquad \qquad \text{return True} \\
+& \qquad \text{if value < root.value} \\
+& \qquad \qquad \text{return Find(value, root.left)} \\
+& \qquad \text{if value > root.value} \\
+& \qquad \qquad \text{return Find(value, root.right)}
+\end{aligned}
+&
+\begin{aligned}
+& \text{Insert(root, node):} \\
+& \qquad \text{if root is empty} \\
+& \qquad \qquad \text{return new Node(node.value)} \\
+& \qquad \text{if node.value == root.value} \\
+& \qquad \qquad \text{do nothing} \\
+& \qquad \text{if node.value < root.value} \\
+& \qquad \qquad \text{root.left = Insert(root.left, node)} \\
+& \qquad \text{if node.value > root.value} \\
+& \qquad \qquad \text{root.right = Insert(root.right, node)}
+\end{aligned} \\
+\hline
+\end{array} \\
+\begin{aligned}
+& \text{CheckBST(root, min, max):} \\
+& \qquad \text{if root is empty} \\
+& \qquad \qquad \text{return True} \\
+& \qquad \text{if root.value <= min or root.value >= max} \\
+& \qquad \qquad \text{return False} \\
+& \qquad \text{return CheckBST(root.left, min, root.value) and CheckBST(root.right, root.value, max)}
+\end{aligned}
+$$
+
 ### References
 
 $$\tag*{}\label{1} \text{[1] Formal Definition of Big O Notation, Youtube Video, https://www.youtube.com/watch?v=T8_x0yhON-4, accessed in Aug. 25, 2024}$$
 $$\tag*{}\label{2} \text{[2] Paul E. Black, "big-O notation", in Dictionary of Algorithms and Data Structures [online], Paul E. Black, ed. 6 September 2019. (accessed in Aug. 25, 2024) Available from: https://www.nist.gov/dads/HTML/bigOnotation.html}$$
 $$\tag*{}\label{3} \text{[3] https://www.geeksforgeeks.org/merge-sort/, accessed in Sep. 11, 2024}$$
+$$\tag*{}\label{4} \text{[4] http://www.cse.hut.fi/en/research/SVG/TRAKLA2/tutorials/heap_tutorial/KekoTRAKLA-89_1.gif, accessed in Sep. 21, 2024}$$
 
 ### Appendix
 
