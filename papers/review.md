@@ -48,7 +48,7 @@ In summary, when the formula is given in the form of $T(n) = O(L(n))$, the compa
 
 The following python code shows *Time Complexity* of each function with *Big O Notation*.
 
-``` Python
+``` python
 def print_first_item(items): # O(1): Order of one. Constant.
     print(item[0])
 
@@ -70,7 +70,7 @@ def is_contain(haystack, needle): # Best: O(1), Worst: O(n) | -> O(n)
 
 *Space Complexity* also uses *Big O Notation* to express the complexity. Two functions below present their space complexity as one does not allocate any memory and the other stores $n$ variables in `hi_list`.
 
-``` Python
+``` python
 def say_hi_n_times(n): # Space Complexity: O(1)
     for time in range(n):
         print('hi')
@@ -131,7 +131,7 @@ $$
 
 What *Searching Algorithms* conduct is to find a target $x$, and return its index if the target were in arrays or databases, or return False if not. **Linear Search** is the simplest algorithm to search the target, suitable for short lists. **Binary Search** needs to be conducted on a sorted list, and it is faster than the linear search. The algorithm is the popular algorithm for large databases with records sorted by numerical values. Pseudo code of the algorithms is shown below.
 
-``` Python
+``` python
 def binary_serach(list, min, max, key):
     while min <= max:
         mid = (min + max) // 2
@@ -152,7 +152,7 @@ With the step of Binary Search, the time complexity of the algorithm $O(\log{n})
 
 *Sorting Algorithms* are algorithms that sort the elements in the list in ascending or descending order. **1) Insertion Sort** is a simple algorithm that sorts the list by inserting the elements one by one. The algorithm sequentially pick a `key` and compare the `key` from the adjacent previous elements to the first element, inserting the `key` if the `key` is smaller than the element. The best case is $O(n)$ when the list is already sorted, and the worst case is $O(n^2)$ when the list is sorted in reverse order. The algorithm is in-place algorithm which makes the list sorted without extra space. Pseudo code of the algorithm is
 
-``` Python
+``` python
 def insertion_sort(list):
     for i in range(1, len(list)):
         key = list[i]
@@ -167,7 +167,7 @@ def insertion_sort(list):
 
 **2) Merge Sort** is a divide-and-conquer algorithm that divides the list into two halves, sorts the two halves, and merges the two halves. The algorithm is efficient in terms of time complexity, $O(n \log{n})$, than the Insertion Sort. Yet, the algorithm is inefficient in terms of space complexity due to its out-of-place feature. Pseudo code of the algorithm [[3](#mjx-eqn-3)] is
 
-``` Python
+``` python
 def merge(arr, left, mid, right):
     n1 = mid - left + 1
     n2 = right - mid
@@ -222,7 +222,7 @@ def merge_sort(arr, left, right):
 
 **3) Selection Sort** is a simple algorithm that sorts the list by selecting an index and searching the suited element in the index. In other words, the algorithm selects the smallest element in each iteration with the partial list and inserts the element to the index. The difference from the Insertion Sort is that the Insertion Sort inserts an element to suited index with the already sorted list. $(O(n^2))$ is the time complexity of the algorithm. In terms of space complexity, the algorithm is in-place algorithm. Pseudo code of the algorithm is
 
-``` Pseudo code
+``` plaintext
 Selection Sort(list, n)
     for i = 0 to n - 1
         min_index = i
@@ -440,88 +440,72 @@ $\text{Fig. #. Heap as Array Representation}$ [[4](#mjx-eqn-4)]
 
 In this review, the operations of a heap is covered in the perspective of a max heap. The operations that are performed on a heap are **1)** insertion, **2)** deletion, and **3)** heapify. A heap is only interested in the root so that deletion in a heap means removing the root node.
 
-$$
-\begin{array}{c|c}
-\begin{aligned}
-& \text{# } O(\log n) \text{ time complexity (the height of the heap)} \\
-& \text{Insert(heap, value): } \\
-& \qquad \text{# Append the value to the end of the heap} \\
-& \qquad \text{heap.append(value)} \\
-\\
-& \qquad \text{# Bubble up the new value to restore the heap property} \\
-& \qquad \text{index = len(heap) - 1} \\
-& \qquad \text{parent = index // 2 # assume that the root starts from the index 1} \\
-\\
-& \qquad \text{while parent >= 1 and heap[parent] < heap[index]} \\
-& \qquad \qquad \text{heap[parent], heap[index] = heap[index], heap[parent]} \\
-\\
-& \qquad \qquad \text{index = parent} \\
-& \qquad \qquad \text{parent = index // 2} \\
-\end{aligned}
-&
-\begin{aligned}
-& \text{# } O(\log n) \text{ time complexity (the height of the heap)} \\
-& \text{Delete(heap): } \\
-& \qquad \text{if heap is empty} \\
-& \qquad \qquad \text{return None} \\
-\\
-& \qquad \text{# Swap the root with the last element} \\
-& \qquad \text{heap[1], heap[-1] = heap[-1], heap[1]} \\
-& \qquad \text{max_value = heap.pop()} \\
-\\
-& \qquad \text{# Bubble down the root to restore the heap property} \\
-& \qquad \text{index = 1} \\
-& \qquad \text{left = 2 * index} \\
-& \qquad \text{right = 2 * index + 1} \\
-\\
-& \qquad \text{while left < len(heap)} \\
-& \qquad \qquad \text{child = left} \\
-& \qquad \qquad \text{if right < len(heap) and heap[right] > heap[left]} \\
-& \qquad \qquad \qquad \text{child = right} \\
-\\
-& \qquad \qquad \text{if child == index} \\
-& \qquad \qquad \qquad \text{break} \\
-\\
-& \qquad \qquad \text{if heap[index] < heap[child]} \\
-& \qquad \qquad \qquad \text{heap[index], heap[child] = heap[child], heap[index]} \\
-\\
-& \qquad \qquad \text{index = child} \\
-& \qquad \qquad \text{left = 2 * index} \\
-& \qquad \qquad \text{right = 2 * index + 1} \\
-\end{aligned}
-\end{array} \\
-\begin{array}{c|c}
-\hline
-\begin{aligned}
-& \text{# } O(n) \text{ time complexity (the number of the nodes)} \\
-& \text{BuildMaxHeap(heap): } \\
-& \qquad \text{size = len(heap)} \\
-& \qquad \text{for i in range(size // 2, 0, -1)} \\
-& \qquad \qquad \text{Heapify(heap, i)} \\
-\end{aligned}
-&
-\begin{aligned}
-& \text{# } O(\log n) \text{ time complexity (the height of the heap)} \\
-& \text{Heapify(heap, index): } \\
-& \qquad \text{largest = index} \\
-& \qquad \text{left = 2 * index} \\
-& \qquad \text{right = 2 * index + 1} \\
-\\
-& \qquad \text{# Check if the left child exists and is greater than the current largest} \\
-& \qquad \text{if left < len(heap) and heap[left] > heap[largest]} \\
-& \qquad \qquad \text{largest = left} \\
-\\
-& \qquad \text{# Check if the right child exists and is greater than the current largest} \\
-& \qquad \text{if right < len(heap) and heap[right] > heap[largest]} \\
-& \qquad \qquad \text{largest = right} \\
-\\
-& \qquad \text{# Swap the current node with the largest node} \\
-& \qquad \text{if largest != index} \\
-& \qquad \qquad \text{heap[index], heap[largest] = heap[largest], heap[index]} \\
-& \qquad \qquad \text{Heapify(heap, largest)} \\
-\end{aligned}
-\end{array}
-$$
+``` plaintext
+Insert(heap, value): # O(log n) time complexity (the height of the heap)
+    # Append the value to the end of the heap
+    heap.append(value)
+
+    # Bubble up the new value to restore the heap property
+    index = len(heap) - 1
+    parent = index // 2 # assume that the root starts from the index 1
+
+    while parent >= 1 and heap[parent] < heap[index]:
+        heap[parent], heap[index] = heap[index], heap[parent]
+
+        index = parent
+        parent = index // 2
+
+Delete(heap): # O(log n) time complexity (the height of the heap)
+    if heap is empty:
+        return None
+
+    # Swap the root with the last element
+    heap[1], heap[-1] = heap[-1], heap[1]
+    max_value = heap.pop()
+
+    # Bubble down the root to restore the heap property
+    index = 1
+    left = 2 * index
+    right = 2 * index + 1
+
+    while left < len(heap):
+        child = left
+        if right < len(heap) and heap[right] > heap[left]:
+            child = right
+
+        if child == index:
+            break
+
+        if heap[index] < heap[child]:
+            heap[index], heap[child] = heap[child], heap[index]
+
+        index = child
+        left = 2 * index
+        right = 2 * index + 1
+
+BuildMaxHeap(heap): # O(n) time complexity (the number of the nodes)
+    size = len(heap)
+    for i in range(size // 2, 0, -1):
+        Heapify(heap, i)
+
+Heapify(heap, index): # O(log n) time complexity (the height of the heap)
+    largest = index
+    left = 2 * index
+    right = 2 * index + 1
+
+    # Check if the left child exists and is greater than the current largest
+    if left < len(heap) and heap[left] > heap[largest]:
+        largest = left
+
+    # Check if the right child exists and is greater than the current largest
+    if right < len(heap) and heap[right] > heap[largest]:
+        largest = right
+
+    # Swap the current node with the largest node
+    if largest != index:
+        heap[index], heap[largest] = heap[largest], heap[index]
+        Heapify(heap, largest)
+```
 
 Heap sort is a sorting algorithm that uses a heap data structure. With the heap (regardless eitehr max heap or min heap), constructing a heap and popping the root element iteratively, the heap sort algorithm sorts the input data with $O(n \log n)$ time complexity.
 
@@ -534,42 +518,32 @@ $\text{Fig #. Disjoint Set}$
 
 The operations that performed on a disjoint set are **1)** make-set, **2)** find-set, and **3)** union. The make-set operation creates a new set with a single element. The find-set operation returns the representative of the set that contains the element by following the chain of parent pointers from the target element until the element whose parent is itself (the root). The union operation merges two sets into a single set. Make-set operation shows $O(1)$ time complexity, find-set operation presents $O(n)$ time complexity, and union operation has $O(n)$ time complexity due to the find-set operations.
 
-$$
-\begin{array}{c|c}
-\begin{aligned}
-& \text{MakeSet(x):} \\
-& \qquad \text{if x is not already present:} \\
-& \qquad \qquad \text{add x to the disjoint set tree} \\
-& \qquad \qquad \text{x.parent = x} \\
-& \qquad \qquad \text{# Union by rank} \\
-& \qquad \qquad \text{x.rank = 0}
-\end{aligned}
-&
-\begin{aligned}
-& \text{Find(x):} \\
-& \qquad \text{if x.parent != x} \\
-& \qquad \qquad \text{# Path Compression} \\
-& \qquad \qquad \text{x.parent = Find(x.parent)} \\
-& \qquad \text{return x.parent}
-\end{aligned}
-&
-\begin{aligned}
-& \text{Union(x, y):} \\
-& \qquad \text{rootX, rootY = Find(x), Find(y)} \\
-\\
-& \qquad \text{if rootX == rootY:} \\
-& \qquad \qquad \text{return} \\
-\\
-& \qquad \text{if rootX.rank < rootY.rank:} \\
-& \qquad \qquad \text{rootX.parent = rootY} \\
-& \qquad \text{elif rootX.rank > rootY.rank:} \\
-& \qquad \qquad \text{rootY.parent = rootX} \\
-& \qquad \text{else:} \\
-& \qquad \qquad \text{rootY.parent = rootX} \\
-& \qquad \qquad \text{rootX.rank += 1}
-\end{aligned}
-\end{array}
-$$
+``` plaintext
+MakeSet(x):
+    if x is not already present:
+        add x to the disjoint set tree
+        x.parent = x
+        x.rank = 0 # Union by rank
+
+Find(x):
+    if x.parent != x:
+        x.parent = Find(x.parent) # Path Compression
+    return x.parent
+
+Union(x, y):
+    rootX, rootY = Find(x), Find(y)
+
+    if rootX == rootY:
+        return
+
+    if rootX.rank < rootY.rank:
+        rootX.parent = rootY
+    elif rootX.rank > rootY.rank:
+        rootY.parent = rootX
+    else:
+        rootY.parent = rootX
+        rootX.rank += 1
+```
 
 In order to efficient implementation, the disjoint set uses union by rank and path compression techniques. Union by rank keeps the tree shallow by always attaching the smaller tree to the root of the larger tree. Path compression makes all elements in the path from the target element to the root point directly to the root, drastically reducing the time complexity of future find operations.
 
@@ -584,42 +558,34 @@ $\quad\mathbf{\text{5)}}$ Duplicate nodes are now allowed in the tree.
 
 The operations performed on a BST are **1)** insertion, **2)** search, **3)** pre-order traversal, **4)** in-order traversal, and **5)** post-order traversal. When $h$ is the height of the tree, search(find), insertion, and deletion operations take $O(h)$ time complexity. The maximum value is the rightmost node, and the minimum value is the leftmost node in the BST. The algorithms for search and checking if the tree is a binary search tree are as follows:
 
-$$
-\begin{array}{c|c}
-\begin{aligned}
-& \text{Find (value, root):} \\
-& \qquad \text{if root is empty} \\
-& \qquad \qquad \text{return False} \\
-& \qquad \text{if root.value == value} \\
-& \qquad \qquad \text{return True} \\
-& \qquad \text{if value < root.value} \\
-& \qquad \qquad \text{return Find(value, root.left)} \\
-& \qquad \text{if value > root.value} \\
-& \qquad \qquad \text{return Find(value, root.right)}
-\end{aligned}
-&
-\begin{aligned}
-& \text{Insert(root, node):} \\
-& \qquad \text{if root is empty} \\
-& \qquad \qquad \text{return new Node(node.value)} \\
-& \qquad \text{if node.value == root.value} \\
-& \qquad \qquad \text{do nothing} \\
-& \qquad \text{if node.value < root.value} \\
-& \qquad \qquad \text{root.left = Insert(root.left, node)} \\
-& \qquad \text{if node.value > root.value} \\
-& \qquad \qquad \text{root.right = Insert(root.right, node)}
-\end{aligned} \\
-\hline
-\end{array} \\
-\begin{aligned}
-& \text{CheckBST(root, min, max):} \\
-& \qquad \text{if root is empty} \\
-& \qquad \qquad \text{return True} \\
-& \qquad \text{if root.value <= min or root.value >= max} \\
-& \qquad \qquad \text{return False} \\
-& \qquad \text{return CheckBST(root.left, min, root.value) and CheckBST(root.right, root.value, max)}
-\end{aligned}
-$$
+``` plaintext
+Find(value, root):
+    if root is empty:
+        return False
+    if root.value == value:
+        return True
+    if value < root.value:
+        return Find(value, root.left)
+    if value > root.value:
+        return Find(value, root.right)
+
+Insert(root, node):
+    if root is empty:
+        return new Node(node.value)
+    if node.value == root.value:
+        return root
+    if node.value < root.value:
+        root.left = Insert(root.left, node)
+    if node.value > root.value:
+        root.right = Insert(root.right, node)
+
+CheckBST(root, min, max):
+    if root is empty:
+        return True
+    if root.value <= min or root.value >= max:
+        return False
+    return CheckBST(root.left, min, root.value) and CheckBST(root.right, root.value, max)
+```
 
 ### References
 
