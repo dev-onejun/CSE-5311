@@ -409,6 +409,64 @@ $\quad\mathbf{\text{2)}}$ it provides moderate access and search, quicker than l
 $\quad\mathbf{\text{3)}}$ it provides moderate insertion and deletion, quicker than arrays but slower than unordered linked lists. \
 $\quad\mathbf{\text{4)}}$ it does not have an upper bound on the number of nodes like linked lists and unlike arrays.
 
+Tree Traversals are a way to visit all the nodes in a tree. Two main types of traversals are Breadth First Traversal and Depth First Traversal. **1)** Breadth First Traversal (or level order traversal) visits nodes level by level, left from right, starting from the root. Two methods to implement Breadth First Traversal (level order traversal) are: 1) using two functions which takes $O(n^2)$, and 2) using a queue which takes $O(n)$.
+
+``` python
+def print_level_order(tree):
+    for d in range(1, height(tree) + 1):
+        print_given_level(tree, d)
+
+def print_given_level(tree, level):
+    if tree is Null:
+        return
+
+    if level == 1: # if target node
+        print(tree.data)
+    elif level > 1:
+        print_given_level(tree.left, level - 1)
+        print_given_level(tree.right, level - 1)
+```
+
+**2)** Depth First Traversal visits all nodes in a branch, left from right, before moving to the next branch. Three types of Depth First Traversals are: In-order Traversal, Pre-order Traversal, and Post-order Traversal. In-order Traversal visits the left subtree, then the root, then the right subtree. Pre-order Traversal visits the root, then the left subtree, then the right subtree. Post-order Traversal visits the left subtree, then the right subtree, then the root.
+
+``` python
+def in_order_traversal(tree):
+    if tree is Null:
+        return
+
+    in_order_traversal(tree.left)
+    print(tree.data)
+    in_order_traversal(tree.right)
+
+def pre_order_traversal(tree):
+    if tree is Null:
+        return
+
+    print(tree.data)
+    pre_order_traversal(tree.left)
+    pre_order_traversal(tree.right)
+
+def post_order_traversal(tree):
+    if tree is Null:
+        return
+
+    post_order_traversal(tree.left)
+    post_order_traversal(tree.right)
+    print(tree.data)
+```
+
+For example, if a tree is constructed with the following nodes:
+
+``` plaintext
+        1
+      /   \
+     2     3
+    / \   / \
+   4   5 6   7
+```
+
+In-order Traversal would visit the nodes in the order: 4, 2, 5, 1, 6, 3, 7. Pre-order Traversal would visit the nodes in the order: 1, 2, 4, 5, 3, 6, 7. Post-order Traversal would visit the nodes in the order: 4, 5, 2, 6, 7, 3, 1.
+
 **1. Binary Tree**
 
 Binary tree is a type of tree data structure in which each node has at most two children, normally referred to as the left child and the right child. The binary tree does not have any specific order in its stored values so that $O(n)$ time complexity is taken to find the maximum, minimum, or any specific value in the binary tree by traversing all the nodes.
@@ -585,6 +643,141 @@ CheckBST(root, min, max):
     if root.value <= min or root.value >= max:
         return False
     return CheckBST(root.left, min, root.value) and CheckBST(root.right, root.value, max)
+
+Delete(x): O(h)
+    if x is a leaf:
+        remove x
+
+    if x has one child in the left:
+        m = Find the max of the left subtree
+        x.data = m.data
+        Delete(m) # recursively delete m
+
+    if x has one child in the right:
+        m = Find the min of the right subtree
+        x.data = m.data
+        Delete(m) # recursively delete m
+
+    if x has two children:
+        m = Find the max of the left subtree # or the min of the right subtree
+        x.data = m.data
+        Delete(m) # recursively delete m
+```
+
+However, BST is subjected to a skewed tree. For example, if the nodes are inserted in the order of 1, 2, 3, 4, 5, 6, 7, the tree would look like:
+
+``` plaintext
+        1
+         \
+          2
+           \
+            3
+             \
+              4
+               \
+                5
+                 \
+                  6
+                   \
+                    7
+```
+
+Finding medians during inserting nodes might be a solution to balance the tree.
+
+``` python
+def Repeat Median(all_input):
+    # Find the medain of the array
+    M = median(all_input)
+
+    # Partition the array into L(Smaller), M, R(Larger)
+    L = all_input[0: M]
+    R = all_input[M + 1: len(all_input)]
+
+    # Create a tree
+    root = M
+    root.left = Repeat Median(L)
+    root.right = Repeat Median(R)
+    return root
+```
+
+Still, this proposal has limitations. Firstly, the proposal does not guarantee a balanced tree which leads the tree operations to $O(\log n)$ time complexity. The proposal might work well when the data of the tree is constant, but when it comes to dynamic data, where the content of the data keeps changing, the proposal might not work well. Secondly, the search for the median in the input array is a challenge in the cost of time complexity.
+
+**5. AVL Tree** [Practice](#mjx-eqn-A)
+
+To address the limitations of the BST, AVL Tree is proposed. Named after its inventors, Adelson-Velsky and Landis, the AVL Tree is a self-balancing BST where the difference between the heights of the left and right subtrees can not be more than 1 for all nodes. 1 is called as a balance factor. The AVL Tree guarantees the time complexity of $O(\log n)$ for all operations.
+
+To preserve the definition of AVL Tree, four types of AVL rotations are used: **1)** Left Rotation, **2)** Right Rotation, **3)** Left-Right Rotation, and **4)** Right-Left Rotation.
+
+$\text{Fig #. Rotations in AVL Tree [} \href{#mjx-eqn-5}{\text{5}} ]$
+|![Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131815/avl11-(1)-768.png)|![Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20231102165654/avl-tree.jpg)|
+|:--:|:--:|
+|Left Rotation|Right Rotation|
+|![Left-Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131629/avl33-(1)-768.png)|![Right-Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131517/avl44-(1)-768.png)|
+|Left-Right Rotation|Right-Left Rotation|
+
+**6. Red Black Tree** [Practice](#mjx-eqn-B)
+
+Red Black Tree is another self-balancing BST. Although AVL Tree had successfully guaranteed the time complexity of $O(\log n)$ for all operations efficiently, its definition was so strict that the cost of maintaining the balance of the tree becomes expensive. Red Black Tree was proposed to reduce the cost with fewer rotations.
+
+Red Black tree has one extra attribute for each node compared to BST; color (red or black). Specifically, it has following four properties. \
+$\quad\text{1.}$ Every node is either red or black. \
+$\quad\text{2.}$ The root node is always black. \
+$\quad\text{3.}$ If a node is red, both of its children are black. \
+$\quad\text{4.}$ Every path from a node to its descendant leaf nodes contains the same number of black nodes.
+
+As a usual tree, Red Black Tree has four operations: Insert, Lookup, Remove, and Print. In this review, only Insert operation is introduced [[7](#mjx-eqn-7)]. (예전 알고리즘 노트 확인 필요)
+
+``` plaintext
+Insert Operation:
+    If a tree is empty, insert the node as the root node and color it black.
+
+    If a tree is not empty,
+        1) Use the BST insert algorithm to add a new node to the tree.
+        2) Color the new node as red by default.
+        3) Check and restore the Red Black Tree properties (fix violations) with the following cases
+
+            Case 1: The parent of the new node is black
+                Do nothing
+            Case 2: The parent of the new node is red
+                Let the new node be X, the parent of X be P, the grandparent of X be G, and the uncle (another sibling of G) of X be S. The case 2 violated the 3rd property of Red Black Tree.
+                    a) S is red
+                        Recolor P, S, and G
+                            - Color P and S as black
+                            - Color G as red if G is not the root, otherwise black
+                    b) S is black or Null
+                        Recolor with rotation in Figure #
+```
+
+|![Red Black Tree 3)-Case 2.b-1](https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/restructure1.gif)|![Red Black Tree 3)-Case 2.b-2](https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/restructure2.gif)|
+|:--:|:--:|
+$\text{Fig #. Red Black Tree Insertion}$
+
+**7. Splay Tree**
+
+Splay Tree is a self-adjusting BST maintaining efficiency by moving the most recently accessed node to the root after the tree operations such as search, insert, and delete. This process helps subsequent operations to reduce the cost and be faster. Besides basic operatinos of tree, Splay Tree involves a common operation called splaying in each operations.
+
+Splaying is a process of moving the target node to the root by performing tree rotations. **1)** Zig Rotation is a single rotation with the right to move the target node to the root. **2)** Zag Rotation is another single rotation with the left. **3)** Zig-Zig Rotation performs a double rotation with the two left or right, applied when the target node and its parent are both right children. **4)** Zig-Zag Rotation is a double rotation with the left and its followed right, applied when the target node is a right child and its parent is a left child. **5)** Zig-Zag Rotation and **6)** Zag-Zig Rotation are vice versa in the opposite direction.
+
+|![Zig Rotation](https://en.wikipedia.org/wiki/File:Splay_tree_zig.svg)|![Zig-Zig Rotation](https://en.wikipedia.org/wiki/File:Zigzig.gif)|![Zag-Zig Rotation](https://en.wikipedia.org/wiki/File:Zigzag.gif)|
+|:--:|:--:|:--:|
+|Zig Rotation|Zig-Zig Rotation|Zag-Zig Rotation|
+$$\text{Fig #. Splay Tree Rotations}$$
+
+``` plaintext
+Splay(Tree, x):
+    while x is not the root:
+        if x's parent is the root: # Zig case
+            rotate x
+        else if x and its parent are both left or both right children: Zig-Zig or Zag-Zag case
+            rotate x's parent
+            rotate x
+        else: # Zig-Zag or Zag-Zig case
+            rotate x
+            rotate x
+
+Insert(Tree, key):
+    node = Basic BST Insert(T, key)
+    Splay(T, node)
 ```
 
 ### References
@@ -593,6 +786,9 @@ $$\tag*{}\label{1} \text{[1] Formal Definition of Big O Notation, Youtube Video,
 $$\tag*{}\label{2} \text{[2] Paul E. Black, "big-O notation", in Dictionary of Algorithms and Data Structures [online], Paul E. Black, ed. 6 September 2019. (accessed in Aug. 25, 2024) Available from: https://www.nist.gov/dads/HTML/bigOnotation.html}$$
 $$\tag*{}\label{3} \text{[3] https://www.geeksforgeeks.org/merge-sort/, accessed in Sep. 11, 2024}$$
 $$\tag*{}\label{4} \text{[4] http://www.cse.hut.fi/en/research/SVG/TRAKLA2/tutorials/heap_tutorial/KekoTRAKLA-89_1.gif, accessed in Sep. 21, 2024}$$
+$$\tag*{}\label{5} \text{[5] https://www.geeksforgeeks.org/introduction-to-avl-tree/, accessed in Sep. 23rd, 2024}$$
+$$\tag*{}\label{6} \text{[6] David Mount, CMSC 420: Lecture 5 AVL Trees, https://www.cs.umd.edu/class/fall2019/cmsc420-0201/Lects/lect05-avl.pdf, accessed in Sep. 23rd, 2024}$$
+$$\tag*{}\label{7} \text{[7] Red-Black Trees, https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/, accessed in Sep. 24th, 2024}$$
 
 ### Appendix
 
@@ -613,3 +809,25 @@ $\cdot \text{ Change of Base : } \log_{b}{x} = \frac{\log_{c}{x}}{\log_{c}{b}}$
     1. Use variables `largest` and `second_largest` and compare the variables to all elements in the list ($O(n)$)
 3. 32 teams are in the list. In order to find a particular team, how many times do you need to compare the teams in the worst case?
     6?
+
+$$\tag*{}\label{A} \text{A. AVL Tree}$$
+
+**What is the maximum height of a balanced AVL Tree with 7 nodes?** \
+$\qquad$ Let the number of nodes in the AVL Tree, when the height of the tree is $h$, be $N(h)$. $N(h)$ follows [[6](#mjx-eqn-6)]
+
+$$
+N(h) = \begin{cases}
+    1 & \text{if } h = 0 \\
+    2 & \text{if } h = 1 \\
+    N(h - 1) + N(h - 2) + 1 & \text{if } h \geq 2
+\end{cases}
+$$
+
+$\qquad$ $N(2) = 4$, $N(3) = 7$, $N(4) = 12$, and so on. Therefore, to satisfy the definition of AVL Tree, the number of nodes between 7 and 11 should have a height of 3. In other words, the maximum height of a balanced AVL Tree with 7 nodes is 3.
+
+$$\tag*{}\label{B} \text{B. Red Black Tree}$$
+
+**1. Create a red black tree by inserting values in the following order into an empty red black tree: 8, 18, 5, 15, 17, 25, 40, 80**
+
+**2. A claim, "in Red and Black trees, the height of the longest path is less than or equal to 2 times the length of the shortest path," is true?** \
+$\qquad$ The claim is true since the longest path is the path with the maximum number of red nodes in rotation with black nodes, and the shortest path is the path with only black nodes. Therefore, if there are $b$ black nodes in a tree in the tree level perspective, the longest path has $2b$ nodes with the $b$ red nodes at most.
