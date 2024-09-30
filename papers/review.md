@@ -13,12 +13,16 @@ $$
 \mathbf{\text{Acronym and Abbreviation}} \\
 \begin{array}{|c|c|}
 \hline
-\text{Binary Search Tree (BST)} & \text{} \\
+\text{Binary Search Tree (BST)} & \text{Minimum Spanning Tree (MST)} \\
 \hline
 \text{} & \text{} \\
 \hline
 \end{array}
 $$
+
+##### Keywords
+
+**Minimum Spanning Tree**: A tree that connects all the vertices in a graph with the minimum possible total edge weight. The tree has $n-1$ edges where $n$ is the number of vertices in the graph.
 
 ### I. Introduction
 
@@ -496,7 +500,7 @@ Heaps are represented as arrays in which a node at index $i$ has children at ind
 ![Heap as array representation](http://www.cse.hut.fi/en/research/SVG/TRAKLA2/tutorials/heap_tutorial/KekoTRAKLA-89_1.gif) \
 $\text{Fig. #. Heap as Array Representation}$ [[4](#mjx-eqn-4)]
 
-In this review, the operations of a heap is covered in the perspective of a max heap. The operations that are performed on a heap are **1)** insertion, **2)** deletion, and **3)** heapify. A heap is only interested in the root so that deletion in a heap means removing the root node.
+In this review, the operations of a heap is covered in the perspective of a max heap. The operations that are performed on a heap are **1)** insertion, **2)** deletion, and **3)** heapify. A heap is only interested in the root so that deletion in a heap means removing the root node. Note that an inserted node is always to be compared with its parent node.
 
 ``` plaintext
 Insert(heap, value): # O(log n) time complexity (the height of the heap)
@@ -708,12 +712,12 @@ To address the limitations of the BST, AVL Tree is proposed. Named after its inv
 
 To preserve the definition of AVL Tree, four types of AVL rotations are used: **1)** Left Rotation, **2)** Right Rotation, **3)** Left-Right Rotation, and **4)** Right-Left Rotation.
 
-$\text{Fig #. Rotations in AVL Tree [} \href{#mjx-eqn-5}{\text{5}} ]$
-|![Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131815/avl11-(1)-768.png)|![Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20231102165654/avl-tree.jpg)|
+| ![Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131815/avl11-(1)-768.png) | ![Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20231102165654/avl-tree.jpg) |
 |:--:|:--:|
-|Left Rotation|Right Rotation|
-|![Left-Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131629/avl33-(1)-768.png)|![Right-Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131517/avl44-(1)-768.png)|
-|Left-Right Rotation|Right-Left Rotation|
+| Left Rotation | Right Rotation |
+| ![Left-Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131629/avl33-(1)-768.png) | ![Right-Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131517/avl44-(1)-768.png) |
+| Left-Right Rotation | Right-Left Rotation |
+$\text{Fig #. Rotations in AVL Tree [} \href{#mjx-eqn-5}{\text{5}} ]$
 
 **6. Red Black Tree** [Practice](#mjx-eqn-B)
 
@@ -748,8 +752,7 @@ Insert Operation:
                         Recolor with rotation in Figure #
 ```
 
-|![Red Black Tree 3)-Case 2.b-1](https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/restructure1.gif)|![Red Black Tree 3)-Case 2.b-2](https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/restructure2.gif)|
-|:--:|:--:|
+| ![Red Black Tree 3)-Case 2.b-1](https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/restructure1.gif) | ![Red Black Tree 3)-Case 2.b-2](https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/restructure2.gif) |
 $\text{Fig #. Red Black Tree Insertion}$
 
 **7. Splay Tree**
@@ -758,9 +761,9 @@ Splay Tree is a self-adjusting BST maintaining efficiency by moving the most rec
 
 Splaying is a process of moving the target node to the root by performing tree rotations. **1)** Zig Rotation is a single rotation with the right to move the target node to the root. **2)** Zag Rotation is another single rotation with the left. **3)** Zig-Zig Rotation performs a double rotation with the two left or right, applied when the target node and its parent are both right children. **4)** Zig-Zag Rotation is a double rotation with the left and its followed right, applied when the target node is a right child and its parent is a left child. **5)** Zig-Zag Rotation and **6)** Zag-Zig Rotation are vice versa in the opposite direction.
 
-|![Zig Rotation](https://en.wikipedia.org/wiki/File:Splay_tree_zig.svg)|![Zig-Zig Rotation](https://en.wikipedia.org/wiki/File:Zigzig.gif)|![Zag-Zig Rotation](https://en.wikipedia.org/wiki/File:Zigzag.gif)|
+| ![Zig Rotation](https://en.wikipedia.org/wiki/File:Splay_tree_zig.svg) | ![Zig-Zig Rotation](https://en.wikipedia.org/wiki/File:Zigzig.gif) | ![Zag-Zig Rotation](https://en.wikipedia.org/wiki/File:Zigzag.gif) |
 |:--:|:--:|:--:|
-|Zig Rotation|Zig-Zig Rotation|Zag-Zig Rotation|
+| Zig Rotation | Zig-Zig Rotation | Zag-Zig Rotation |
 $$\text{Fig #. Splay Tree Rotations}$$
 
 ``` plaintext
@@ -779,6 +782,154 @@ Insert(Tree, key):
     node = Basic BST Insert(T, key)
     Splay(T, node)
 ```
+
+#### H. Graph Theory
+
+A graph is $G = (V, E)$ where $V$ is a set of vertices and $E$ is a set of edges, typically denoted as $V = \{a, b, c, d, e\}$ and $E = \{ab, bd, ac, cd, de\}$ for example.
+
+Specifically, **Vertex** is a set of nodes, **Edge** is a set of a line between two nodes, **Adjacency** refers to two nodes connected to each other through an edge or two edges connected to each other through a node, **Path** is a sequence of edges between two nodes in a graph, and **Distance** is the number of edges in the shortest path between two nodes $U$ and $V$. The **Distance** is represented as $d(U, V)$.
+
+**Eccentricity** is the maximum distance between a vertex and all other vertices in a graph, usually denoted as $e(v) = \max(d(v, u))$.
+
+**Degree of Vertex** is the number of vertices which are adjacent (connected). In $n$ nodes, the range of the degree is $0 \leq \text{degree} \leq n-1$. The sum of the degree of all vertices is equal to twice the number of edges, $2|E|$.
+
+Graphs have three operations: 1) Add/Pop a vertex, 2) Add/Pop an edge, and 3) Display a vertex.
+
+**1) Traversal Methods**
+
+**Depth First Traversal** in a graph traverses in a depth-first manner, using a stack to remember vertices, a sequence of vertices to visit next. The algorithm is applied to find cycle, topological sorting, whether a graph is bipartite, and connected components. The complexity of DFS is $O(V + E)$ where $V$ is the number of vertices and $E$ is the number of edges, implementing as follows:
+
+``` plaintext
+Rule 1: Visit the adjacent unvisited neighbor. 1) Mark it as visited, 2) print it, and 3) push it on a stack. (Pre-order traversal)
+Rule 2: If no adjacent vertex is found, pop up a vertex from the stack.
+Rule 3: Repeat rule 1 and 2 until the stack is empty.
+
+DFS_iterative(G, s):
+    let S be a stack
+    S.push(s)
+    mark s as visited
+    while S is not empty:
+        v = S.pop()
+        for all neighbors w of v:
+            if w is not visited:
+                s.push(w)
+                mark w as visited
+
+DFS_recursive(G, s):
+    mark s as visited
+    for all neighbors w of s:
+        if w is not visited:
+            DFS_recursive(G, w)
+```
+
+**Breadth First Traversal** in a graph traverses in a breadth-first manner, using a queue to remember vertices, a sequence of vertices to visit next. The algorithm is applied to find the shortest path in a graph, MST of unweighted graph, GPS navigation, cycle in undirected graph, and all nodes within one connected component. The complexity of BFS is $O(V + E)$ where $V$ is the number of vertices and $E$ is the number of edges. The algorithm is:
+
+``` plaintext
+Rule 1: Visit the adjacent unvisited neighbor. 1) Mark it as visited, 2) print it, and 3) push it on a queue. (Pre-order traversal)
+Rule 2: If no adjacent neighbor is found, remove the first vertex from the queue.
+Rule 3: Repeat rule 1 and 2 until the queue is empty.
+
+BFS(G, s):
+    let Q be a queue
+    Q.push(s)
+    mark s as visited
+    while Q is not empty:
+        v = Q.pop()
+        for all neighbors w of v:
+            if w is not visited:
+                Q.push(w)
+                mark w as visited
+```
+
+**2) Types of Graphs**
+
+**Non-Directed Graph** is a graph where edges have no direction, meaning that the edge $(u, v)$ is the same as $(v, u)$. **Directed Graph** is a graph where edges have a direction. An arrow is usually drawn from the source vertex to the destination vertex, allowing only a shift from the source to the destination. The graph distinguishes the **Degree of Vertex** into **In-degree** and **Out-degree**. **In-degree** is the number of edges coming into a vertex, and **Out-degree** is the number of edges going out from a vertex.
+
+**Simple Graph** refers to a graph with no loops or multiple edges between the same pair of vertices. The maximum number of edges in a simple graph is $\frac{n(n-1)}{2}$, where $n$ is the number of vertices. This is equivalent to $n C_2$, a combination of two things from $n$ things. The number of valid simple graphs with $n$ vertices is $2^{n(n-1)/2}$, derived from the perspective that each edge can be either present or absent $2$ and the number of possible maximum edges $\frac{n(n-1)}{2}$.
+
+While a graph $G$ is **Connected** if there is a **path** (not an adjacency) between every pair of vertices, **Disconnected Graph** is a graph which has no path between at least one pair of vertices. As summarized above, whether a graph is connected or disconnected can be determined by traversing the graph using DFS or BFS.
+
+|![Connected Graph](./assets/connected_graph.)]|![Disconnected Graph](./assets/disconnected_graph.)]|
+|:--:|:--:|
+|Connected Graph|Disconnected Graph|
+
+**Complete Graph** refers to a graph where every vertex is connected to every other vertex. The number of edges in a complete graph with $n$ vertices is $\frac{n(n-1)}{2}$ which was the maximum number of edges in a simple graph.
+
+**Cycle Graph** is said to have $n$ length of cycle with $n$ nodes where $n \geq 3$. **Acyclic Graph** is a graph with no cycle.
+
+A graph $G(V, E)$ is **Bipartite** if the vertices can be partitioned into two sets $V_1$ and $V_2$ such that edges connect nodes in $V_1$ to nodes in $V_2$. A node alone in a graph can be categorized into any of the two sets, considering as bipartite. As explained above, DFS and BFS are able to determine whether a graph is bipartite or not. **Complete Bipartite Graph** is a graph where every vertex in $V_1$ is connected to every vertex in $V_2$. The number of edges in a complete bipartite graph with $n$ vertices in $V_1$ and $m$ vertices in $V_2$ is exactly $n \times m$.
+
+When it comes to a graph $G(V, E)$, $G^-$ is a **Complement Graph** of $G$ where $G^-$ has the same set of vertices $V$ but different set of edges $E^-$. The edge $(u, v)$ is in $E^-$ if and only if $(u, v)$ is not in $E$. $E \cap E^- = \emptyset$, $E \cup E^- = V \times V$, and $|E| + |E^-| = |E(\text{Complete Graph})| = \frac{n(n-1)}{2}$ are valid. ([Practice](#mjx-eqn-C))
+
+**Tree**, addressed in the previous section *G*, is a connected acyclic graph in terms of a graph theory. A tree has $n-1$ edges where $n$ is the number of vertices in the graph. Preserving a definition of **Simple Graph**, if an edge is added to a tree, it becomes a **Cycle Graph**. With the similarity between a tree and a graph, **Spanning Tree** is a sub-graph of a graph $G$ that is a tree containing all the vertices of $G$ in the graph. This special graph, also tree, is applied to civil network design, computer network design, and cluster analysis. In summary, **Spanning Tree** has four properties:
+
+* A subgraph of a graph $G$ with all vertices of $G$
+* A tree with $n-1$ edges where $n$ is the number of vertices in $G$
+* A connected graph
+* An acyclic graph
+
+**Minimum Spanning Tree (MST)** is a tree that connects all the vertices in a graph with the minimum possible total edge weight.
+
+**Cut Vertex** and **Cut Edge** are the vertices and edges that, when removed, increase the number of connected components in a graph. In other words, a **Cut Vertex** is a vertex whose removal makes the graph disconnected, and a **Cut Edge** is an edge whose removal makes the graph disconnected. While whenever a graph has a **Cut Edge**, **Cut Vertex** is also present, **Cut Edge** is not always existed when **Cut Vertex** is present.
+
+``` plaintext
+Cut Vertex, Cut Edge
+    a - b - c - d
+    |   |   |   |
+    e - f   g - h
+b,c are a cut vertex
+b - c is a cut edge
+```
+
+In addition, **Cut Set** is a set of edges whose removal makes the graph disconnected. The difference between **Cut Edge** and **Cut Set** is that **Cut Edge** is a single edge, while **Cut Set** is a set of edges. ([Practice](#mjx-eqn-D))
+
+``` plaintext
+Cut Set
+    a - b - c
+    |   |
+    d - e
+1. {the edge between b and c}
+2. {the edge between a and b, the edge between b and e}
+3. and so on are cut sets
+```
+
+**3) Representation of Graphs**
+
+Graphs can be represented in two ways: **Adjacency Matrix** and **Adjacency List**. **Adjacency Matrix** is a 2D array of size $V \times V$ where $V$ is the number of vertices in the graph. The matrix is filled with either $0$ or $1$ where $1$ indicates that there is an edge between two vertices. **Adjacency List** is a collection of linked lists or array that lists all the adjacent vertices of a vertex.
+
+$$
+\begin{array}{c|c}
+\text{Adjacency Matrix} & \text{Adjacency List} \\
+\hline
+\begin{array}{c|c}
+\text{Undirected Graph} & \text{Directed Graph} \\
+\begin{array}{c|cccc}
+ & a & b & c & d \\
+\hline
+a & 0 & 1 & 1 & 0 \\
+b & 1 & 0 & 1 & 0 \\
+c & 1 & 1 & 0 & 1 \\
+d & 0 & 0 & 1 & 0 \\
+\end{array} &
+\begin{array}{c|cccc}
+ & a & b & c & d \\
+\hline
+a & 0 & 1 & 1 & 0 \\
+b & 0 & 0 & 1 & 0 \\
+c & 0 & 0 & 0 & 1 \\
+d & 0 & 0 & 0 & 0 \\
+\end{array}
+\end{array}
+&
+\begin{array}{c|c}
+\text{a} & \text{b} \to \text{c} \to \text{d} \\
+\text{b} & \text{a} \to \text{c} \\
+\text{c} & \text{a} \to \text{b} \to \text{d} \\
+\text{d} & \text{c}
+\end{array}
+\end{array}
+$$
+
 
 ### References
 
@@ -831,3 +982,59 @@ $$\tag*{}\label{B} \text{B. Red Black Tree}$$
 
 **2. A claim, "in Red and Black trees, the height of the longest path is less than or equal to 2 times the length of the shortest path," is true?** \
 $\qquad$ The claim is true since the longest path is the path with the maximum number of red nodes in rotation with black nodes, and the shortest path is the path with only black nodes. Therefore, if there are $b$ black nodes in a tree in the tree level perspective, the longest path has $2b$ nodes with the $b$ red nodes at most.
+
+$$\tag*{}\label{C} \text{[C] Complement Graph}$$
+
+**a. Let $G$ be a simple graph with $9$ vertices and $12$ edges. Find the number of edges in the complement graph.**
+
+$$
+\begin{align*}
+\text{Number of edges in the complement graph} &= \text{Number of edges in the complete graph} - \text{Number of edges in the graph} \\
+&= \frac{9 \times 8}{2} - 12 \\
+&= 36 - 12 \\
+&= 24
+\end{align*}
+$$
+
+**b. Let $G$ be a simple graph with $40$ edges and $G'$ be a complement graph with $38$ edges. Find the number of vertices in $G$.**
+
+$$
+\begin{align*}
+& 40 + 38 = \frac{n(n-1)}{2} \\
+& 78 = \frac{n(n-1)}{2} \\
+& n(n-1) = 78 \times 2 \\
+& n^2 - n = 156 \\
+& n^2 - n - 156 = 0 \\
+& (n - 13)(n + 12) = 0 \\
+\hline
+\end{align*} \\
+\to n = 13
+$$
+
+$$\tag*{}\label{D} \text{[D] Cut Vertex, Edge, and Set}$$
+
+**a. Suppose that a group of 5 people A, B, C, D, and E. The following pairs of people are qquantied with each other: A-C, A-D, B-C, C-D, C-E.**
+
+**a-1. Draw a graph to represent the relationship.**
+
+**a-2. List the vertex set and edge set.**
+
+**a-3. Draw an adjacency matrix to represent $G$.**
+
+$$
+\begin{array}{|c|c|c|c|c|c|}
+\hline
+ & A & B & C & D & E \\
+\hline
+A & 0 & 0 & 1 & 1 & 0 \\
+B & 0 & 0 & 1 & 0 & 0 \\
+C & 1 & 1 & 0 & 1 & 1 \\
+D & 1 & 0 & 1 & 0 & 0 \\
+E & 0 & 0 & 1 & 0 & 0 \\
+\hline
+\end{array}
+$$
+
+**b. Given a graph with no cycles, we want to consider it as a tree and assign a root node such that the tree has the maximum height. How can we do this?**
+
+$\qquad$ Find the longest path and make either the end nodes of the path as the root node.

@@ -211,17 +211,6 @@ b,c are a cut vertex
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 ### References
 
 $\tag*{}\label{n} \text{[n] }$
