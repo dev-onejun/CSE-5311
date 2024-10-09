@@ -81,7 +81,7 @@ cf. 소팅 비교
 
 ``` plaintext
 a) Parent of A[9] is A[16] -> X
-b) left chld of A[8] is A[17] -> X
+b) left child of A[8] is A[17] -> X
 c) right child of A[8] is A[17] -> O
 d) Grand parent of A[9] is A[2] -> O
 e) Grand parent of A[8] is A[4] -> X
@@ -112,7 +112,7 @@ c) pivot element -> O
 
 - post-order traversal
 
-10. The minimum number of edges required to create a cyclic graph of n vertices?
+10. The minimum number of edges required to create a cyclic graph of n vertices in a connected graph?
 
 - n
 
@@ -124,7 +124,7 @@ c) pivot element -> O
 
 - Move the last node to the root and heapify ? 최대값인지 어케 앎?
 
-13. All spaning tress of a graph G...
+13. All spanning tress of a graph G...
 
 ``` plaintext
 a) have same number of edges and same number of vertices -> O (All have n-1 edges and n vertices)
@@ -204,6 +204,7 @@ Minimum
 The maximum: $2^{h+1} - 1 = 2^7 - 1 = 127$ (등비수열 합)
 
 18. What is the minimum and maximum number of non-leaf nodes in a complete tree of height 5? (Non-leaf node 갯수만 세는 거!)
+
 ?
 
 19. What is the minimum and maximum number of nodes in a balanced AVL tree of height 5?

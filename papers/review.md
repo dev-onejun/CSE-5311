@@ -154,18 +154,17 @@ With the step of Binary Search, the time complexity of the algorithm $O(\log{n})
 
 #### E. Sorting Algorithms
 
-*Sorting Algorithms* are algorithms that sort the elements in the list in ascending or descending order. **1) Insertion Sort** is a simple algorithm that sorts the list by inserting the elements one by one. The algorithm sequentially pick a `key` and compare the `key` from the adjacent previous elements to the first element, inserting the `key` if the `key` is smaller than the element. The best case is $O(n)$ when the list is already sorted, and the worst case is $O(n^2)$ when the list is sorted in reverse order. The algorithm is in-place algorithm which makes the list sorted without extra space. Pseudo code of the algorithm is
+*Sorting Algorithms* are algorithms that sort the elements in the list in ascending or descending order. **1) Insertion Sort** is a simple algorithm that sorts the list by inserting the elements one by one. The algorithm sequentially pick a `key` and compare the `key` from the adjacent previous elements to the first element, inserting the `key` if the `key` is smaller than the element. In other words, in $n = k$ iteration, the algorithm picks the $k$th element and compares the element with the sorted subarray from the first element to the $k-1$th element to insert the $k$th element to the suited index. The rest of the array is unsorted. The best case is $O(n)$ when the list is already sorted, and the worst case is $O(n^2)$ when the list is sorted in reverse order. The algorithm is in-place algorithm which makes the list sorted without extra space. Pseudo code of the algorithm is
 
 ``` python
 def insertion_sort(list):
     for i in range(1, len(list)):
         key = list[i]
-        j = i - 1
 
+        j = i - 1
         while j >= 0 and key < list[j]:
             list[j + 1] = list[j]
             j -= 1
-
         list[j + 1] = key
 ```
 
@@ -226,7 +225,7 @@ def merge_sort(arr, left, right):
 
 **3) Selection Sort** is a simple algorithm that sorts the list by selecting an index and searching the suited element in the index. In other words, the algorithm selects the smallest element in each iteration with the partial list and inserts the element to the index. The difference from the Insertion Sort is that the Insertion Sort inserts an element to suited index with the already sorted list. $(O(n^2))$ is the time complexity of the algorithm. In terms of space complexity, the algorithm is in-place algorithm. Pseudo code of the algorithm is
 
-``` plaintext
+``` python
 Selection Sort(list, n)
     for i = 0 to n - 1
         min_index = i
@@ -239,7 +238,7 @@ Selection Sort(list, n)
 
 In summary, at the best case, the runtime comparison of the algorithms is insertion ($O(n)$) $\lt$ merge ($O(n\log n)$ $\lt$ selection ($O(n^2)$). At the worst case, the fastest algorithms is merge ($O(n\log n)$).
 
-(For the test, do not need to memorize Pseudo code. Just memorize how each algorithm works.)
+(For the exam, do not need to memorize Pseudo code. Just memorize how each algorithm works.)
 
 **4) Bubble Sort**
 
@@ -257,7 +256,7 @@ def bubble_sort(arr):
 
 **5) Quick Sort**
 
-**Quick sort** is adopted from the divide-and-conquer approach. The algorithm selects a pivot element and partitions the array into two sub-arrays according to the pivot element, repeating the process recursively for each sub-array until the array is sorted. When the sub-arrays have only one element or are empty, they are considered sorted. The pivot element is picked from the first, last, or random element of the array. The time complexity of the quick sort algorithm is $O(n \log n)$ in the best and average cases, and $O(n^2)$ in the worst case when the array is already sorted and the pivot is always the smallest or largest element. The algorithm is an in-place algorithm.
+**Quick sort** is adopted from the divide-and-conquer approach. The algorithm selects a pivot element and partitions the array into two sub-arrays where elements less than the pivot are on the left array and elements greater than the pivot are on the right array, repeating the process recursively for each sub-array until the array is sorted. A pivot is recursived selected in the left array at first, and then in the right array. When the sub-arrays have only one element or are empty, they are considered sorted. The pivot element is picked from the first, last, or random element of the array. The time complexity of the quick sort algorithm is $O(n \log n)$ in the best and average cases, and $O(n^2)$ in the worst case when the array is already sorted and the pivot is always the smallest or largest element. The algorithm is an in-place algorithm.
 
 ```python
 def quick_sort(arr, low, high):
@@ -331,7 +330,9 @@ def median_of_three(arr, low, high):
     return mid
 ```
 
-**Quick Select Algorithm** is the other variation of the quick sort algorithm that aims to find the kth smallest element in an unsorted array. The situation, called **the kth smallest element problem** or **the linear selection problem**, has four approaches: **1. Sort the array using the merge(quick) sort**. The kth smallest element can be found in $O(n \log n)$ time complexity with constant access time. **2. Find the smallest element in each iteration**. In order to find the smallest element in the array, $O(n)$ time complexity is required. The approach repeats the process k times to find the kth smallest element so that the approach is efficient only when k is small. **3. Quick Select Algorithm** works by selecting a pivot, partitioning the array, and then determining if the kth smallest element is in the left, right partition, or the pivot itself, repeating the process until finding the kth smallest element rather than sorting the entire array. This approach has a $O(n)$ time complexity in the best and average cases better than the O(n \log n) time complexity of the merge sort algorithm. However, similar to the quick sort algorithm, the quick select algorithm has a $O(n^2)$ time complexity in the worst case when the pivot is consistently the smallest or largest element in the sorted array. (Since the problem is in the situation where the array is unsorted, the worst-case scenario is less likely to occur.)
+**$K$-th Smallest Element Problem**
+
+**Quick Select Algorithm** is the other variation of the quick sort algorithm that aims to find the kth smallest element in an unsorted array. The situation, called **the kth smallest element problem** or **the linear selection problem**, has four approaches: **(1) Sort the array using the merge(quick) sort**. The kth smallest element can be found in $O(n \log n)$ time complexity with constant access time. **(2) Find the smallest element in each iteration**. In order to find the smallest element in the array, $O(n)$ time complexity is required. The approach repeats the process k times to find the kth smallest element so that the approach is efficient only when k is small. As a result, $O(n \cdot k)$ is required. **(3) Quick Select Algorithm** works by selecting a pivot, partitioning the array, and then determining if the kth smallest element is in the left, right partition, or the pivot itself, repeating the process until finding the kth smallest element rather than sorting the entire array. This approach has a $O(n)$ time complexity in the best and average cases better than the $O(n \log n)$ time complexity of the merge sort algorithm. However, similar to the quick sort algorithm, the quick select algorithm has a $O(n^2)$ time complexity in the worst case when the pivot is consistently the smallest or largest element in the sorted array. (Since the problem is in the situation where the array is unsorted, the worst-case scenario is less likely to occur.)
 
 ```python
 def quick_select(arr, low, high, k):
@@ -358,9 +359,7 @@ def partition(arr, low, high):
     return i
 ```
 
-**4. Median of Medians Algorithm**
-
-**4. Median of Medians Algorithm**, also known as **Deterministic Linear Time Selection Algorithm**, is notable for achieving $O(n)$ time complexity for findding the k-th smallest element in an unsorted array. The algorithm is based on the divide-and-conquer strategy. The algorithm is as follows: **0)** if the number of arrays $n$ is less than or equal to 5, sort the array and return the k-th smallest element. **1)** Divide the array into groups of 5 elements. **2)** Find the median of each group consisted of 5 elements by sorting the each group. **3)** Among the medians of each group, find the medians of the medians. **4)** Use the median of medians as a pivot to partition the array into elements smaller than the pivot and elements greater than the pivot. **5)** Check if the pivot is the k-th smallest element. If true, return the pivot. If false, recursively find the k-th smallest element in the left or right partition.
+**(4) Median of Medians Algorithm**, also known as **Deterministic Linear Time Selection Algorithm**, is notable for achieving $O(n)$ time complexity for finding the k-th smallest element in an unsorted array. The algorithm is based on the divide-and-conquer strategy. The algorithm is as follows: **0)** if the number of arrays $n$ is less than or equal to 5, sort the array and return the k-th smallest element. **1)** Divide the array into groups of 5 elements. **2)** Find the median of each group consisted of 5 elements by sorting the each group. **3)** Among the medians of each group, find the medians of the medians. **4)** Use the median of medians as a pivot to partition the array into elements smaller than the pivot and elements greater than the pivot. **5)** Check if the pivot is the k-th smallest element. If true, return the pivot. If false, recursively find the k-th smallest element in the left or right partition.
 
 ```python
 def median_of_medians(arr, k):
@@ -394,6 +393,26 @@ T(n) = n + T(\frac{n}{5}) + T(\frac{7n}{10}) \\
 \to O(n) = n
 $$
 
+In summary, the comparison among algorithms which can be used in sorting is in the table below.
+
+$$
+\begin{array}{|c|c|c|c|c|c|}
+\hline
+\text{Algorithm} & \text{Best Case} & \text{Average Case} & \text{Worst Case} \\
+\hline
+\text{Insertion Sort} & O(n) & O(n^2) & O(n^2) \\
+\text{Merge Sort} & O(n \log n) & O(n \log n) & O(n \log n) \\
+\text{Selection Sort} & O(n^2) & O(n^2) & O(n^2) \\
+\text{Bubble Sort} & O(n) & O(n^2) & O(n^2) \\
+\text{Quick Sort} & O(n \log n) & O(n \log n) & O(n^2) \\
+\text{Three-way Quick Sort} & O(n \log n) & O(n \log n) & O(n^2) \\
+\text{Median-of-Three Quick Sort} & O(n \log n) & O(n \log n) & O(n^2) \\
+\text{Quick Select} & O(n \log n) & O(n \log n) & O(n^2) \\
+\text{Median of Medians} & O(n \log n) & O(n \log n) & O(n \log n) \\
+\hline
+\end{array}
+$$
+
 #### F. Inversion Count Problem
 
 An inversion refers to a state when a sequence of numbers is not in the usual order of whole arrays, either ascending or descending order. The Inversion Count Problem is to find the number of inversions in an array. For example, the sequence {2, 4, 1, 3, 5} has three inversions: (2, 1), (4, 1), (4, 3) among 10 possible pairs where ($a$, $b$) denotes that $a$ is before $b$ in the sequences. Technically, if $i < j$ and $A[i] > A[j]$, then the pair ($i$, $j$) is an inversion of the array $A$.
@@ -404,8 +423,7 @@ To tackle this problem, Five approaches are introduced: **1. Brute Force (Naive 
 
 Tree is a data structure that consists of nodes with a parent and child relationship. The top node is called the root of the tree, and the nodes that have no children are called leaf nodes. The path is a sequence of nodes from the root to a target node. Visiting a node means checking the value of the node, and traversing a tree means passing through the nodes in a specific order. Keys are the values stored in the nodes.
 
-The depth of a node is the length of the path from the root to the node. The level of a node is the depth of the node plus one ($\text{level} = \text{depth} + 1$). **(I googled about it, but it seems that every document say differently. Also, the lecture node assumed that the level of the root node is 0 and the depth of the root is the number of elements of the path which is 1) IS IT TRUE? THEN, THE LEVEL OF THE ROOT IS 1 AND THE DEPTH OF THE ROOT IS 0?**
-The height of the tree is the maximum depth of the tree ($\text{height} = \max(\text{depth})$). In other words, the height of the tree is the longest path from the root to a leaf node.
+The depth of a node is the length of the path from the root to the node. The depth of the root is 0. The level of a node is the depth of the node plus one ($\text{level} = \text{depth} + 1$). The height of the root will be given in a problem condition, whether the height of the root is 0 or 1. The height of the tree is the maximum depth of the tree ($\text{height} = \max(\text{depth})$). In other words, the height of the tree is the longest path from the root to a leaf node.
 
 Properties of the tree data structure are that \
 $\quad\mathbf{\text{1)}}$ it stores data naturally in a hierarchical form. \
@@ -431,17 +449,9 @@ def print_given_level(tree, level):
         print_given_level(tree.right, level - 1)
 ```
 
-**2)** Depth First Traversal visits all nodes in a branch, left from right, before moving to the next branch. Three types of Depth First Traversals are: In-order Traversal, Pre-order Traversal, and Post-order Traversal. In-order Traversal visits the left subtree, then the root, then the right subtree. Pre-order Traversal visits the root, then the left subtree, then the right subtree. Post-order Traversal visits the left subtree, then the right subtree, then the root.
+**2)** Depth First Traversal visits all nodes in a branch, left from right, before moving to the next branch. Three types of Depth First Traversals are: Pre-order traversal, In-order traversal, and Post-order traversal. **Pre-order Traversal** visits the root, then the left subtree, then the right subtree. **In-order Traversal** visits the left subtree, then the root, then the right subtree. **Post-order Traversal** visits the left subtree, then the right subtree, then the root.
 
 ``` python
-def in_order_traversal(tree):
-    if tree is Null:
-        return
-
-    in_order_traversal(tree.left)
-    print(tree.data)
-    in_order_traversal(tree.right)
-
 def pre_order_traversal(tree):
     if tree is Null:
         return
@@ -449,6 +459,14 @@ def pre_order_traversal(tree):
     print(tree.data)
     pre_order_traversal(tree.left)
     pre_order_traversal(tree.right)
+
+def in_order_traversal(tree):
+    if tree is Null:
+        return
+
+    in_order_traversal(tree.left)
+    print(tree.data)
+    in_order_traversal(tree.right)
 
 def post_order_traversal(tree):
     if tree is Null:
@@ -497,12 +515,12 @@ These heaps are useful when repeatedly finding the maximum or minimum value in t
 
 Heaps are represented as arrays in which a node at index $i$ has children at indices $2i$ for the left child and $2i + 1$ for the right child. The parent of the node at index $i$ is at index $\left\lfloor\frac{i}{2}\right\rfloor$. Following figure shows the array representation of a heap.
 
-![Heap as array representation](http://www.cse.hut.fi/en/research/SVG/TRAKLA2/tutorials/heap_tutorial/KekoTRAKLA-89_1.gif) \
-$\text{Fig. #. Heap as Array Representation}$ [[4](#mjx-eqn-4)]
+![Heap as array representation](./assets/1.gif) \
+$\text{Fig. 2. Heap as Array Representation}$ [[4](#mjx-eqn-4)]
 
 In this review, the operations of a heap is covered in the perspective of a max heap. The operations that are performed on a heap are **1)** insertion, **2)** deletion, and **3)** heapify. A heap is only interested in the root so that deletion in a heap means removing the root node. Note that an inserted node is always to be compared with its parent node.
 
-``` plaintext
+``` python
 Insert(heap, value): # O(log n) time complexity (the height of the heap)
     # Append the value to the end of the heap
     heap.append(value)
@@ -576,11 +594,11 @@ Heap sort is a sorting algorithm that uses a heap data structure. With the heap 
 A disjoint set, also known as a union-find data structure, is a data structure that stores a collection of disjoint sets, allowing for efficient merging and finding of the sets. The disjoint set data structure consists of items which store an id and a parent pointer. The pointers of the elements are arranged to form one or more trees where each tree represents a set.
 
 ![Disjoint set](https://algocoding.wordpress.com/wp-content/uploads/2014/09/uf2_union3.png) \
-$\text{Fig #. Disjoint Set}$
+$\text{Fig 3. Disjoint Set}$
 
 The operations that performed on a disjoint set are **1)** make-set, **2)** find-set, and **3)** union. The make-set operation creates a new set with a single element. The find-set operation returns the representative of the set that contains the element by following the chain of parent pointers from the target element until the element whose parent is itself (the root). The union operation merges two sets into a single set. Make-set operation shows $O(1)$ time complexity, find-set operation presents $O(n)$ time complexity, and union operation has $O(n)$ time complexity due to the find-set operations.
 
-``` plaintext
+``` python
 MakeSet(x):
     if x is not already present:
         add x to the disjoint set tree
@@ -616,11 +634,11 @@ $\quad\mathbf{\text{1)}}$ The number of children for each node is at most two. \
 $\quad\mathbf{\text{2)}}$ The left subtree of a node contains only nodes with keys less than the node's key. \
 $\quad\mathbf{\text{3)}}$ The right subtree of a node contains only nodes with keys greater than the node's key. \
 $\quad\mathbf{\text{4)}}$ Both the left and right subtrees must also be Binary Search Trees. \
-$\quad\mathbf{\text{5)}}$ Duplicate nodes are now allowed in the tree.
+$\quad\mathbf{\text{5)}}$ Duplicate nodes are not allowed in the tree.
 
 The operations performed on a BST are **1)** insertion, **2)** search, **3)** pre-order traversal, **4)** in-order traversal, and **5)** post-order traversal. When $h$ is the height of the tree, search(find), insertion, and deletion operations take $O(h)$ time complexity. The maximum value is the rightmost node, and the minimum value is the leftmost node in the BST. The algorithms for search and checking if the tree is a binary search tree are as follows:
 
-``` plaintext
+``` python
 Find(value, root):
     if root is empty:
         return False
@@ -689,7 +707,7 @@ However, BST is subjected to a skewed tree. For example, if the nodes are insert
 Finding medians during inserting nodes might be a solution to balance the tree.
 
 ``` python
-def Repeat Median(all_input):
+def Repeat_Median(all_input):
     # Find the medain of the array
     M = median(all_input)
 
@@ -699,8 +717,8 @@ def Repeat Median(all_input):
 
     # Create a tree
     root = M
-    root.left = Repeat Median(L)
-    root.right = Repeat Median(R)
+    root.left = Repeat_Median(L)
+    root.right = Repeat_Median(R)
     return root
 ```
 
@@ -712,12 +730,12 @@ To address the limitations of the BST, AVL Tree is proposed. Named after its inv
 
 To preserve the definition of AVL Tree, four types of AVL rotations are used: **1)** Left Rotation, **2)** Right Rotation, **3)** Left-Right Rotation, and **4)** Right-Left Rotation.
 
-| ![Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131815/avl11-(1)-768.png) | ![Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20231102165654/avl-tree.jpg) |
+|![Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131815/avl11-(1)-768.png)|![Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20231102165654/avl-tree.jpg)|
 |:--:|:--:|
-| Left Rotation | Right Rotation |
-| ![Left-Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131629/avl33-(1)-768.png) | ![Right-Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131517/avl44-(1)-768.png) |
-| Left-Right Rotation | Right-Left Rotation |
-$\text{Fig #. Rotations in AVL Tree [} \href{#mjx-eqn-5}{\text{5}} ]$
+|Left Rotation|Right Rotation|
+|![Left-Right Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131629/avl33-(1)-768.png)|![Right-Left Rotation](https://media.geeksforgeeks.org/wp-content/uploads/20221229131517/avl44-(1)-768.png)|
+|Left-Right Rotation|Right-Left Rotation| \\
+$\text{Fig 4. Rotations in AVL Tree [} \href{#mjx-eqn-5}{\text{5}} ]$
 
 **6. Red Black Tree** [Practice](#mjx-eqn-B)
 
@@ -749,11 +767,11 @@ Insert Operation:
                             - Color P and S as black
                             - Color G as red if G is not the root, otherwise black
                     b) S is black or Null
-                        Recolor with rotation in Figure #
+                        Recolor with rotation in Figure 5
 ```
 
 | ![Red Black Tree 3)-Case 2.b-1](https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/restructure1.gif) | ![Red Black Tree 3)-Case 2.b-2](https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/restructure2.gif) |
-$\text{Fig #. Red Black Tree Insertion}$
+$\text{Fig 5. Red Black Tree Insertion}$
 
 **7. Splay Tree**
 
@@ -761,12 +779,12 @@ Splay Tree is a self-adjusting BST maintaining efficiency by moving the most rec
 
 Splaying is a process of moving the target node to the root by performing tree rotations. **1)** Zig Rotation is a single rotation with the right to move the target node to the root. **2)** Zag Rotation is another single rotation with the left. **3)** Zig-Zig Rotation performs a double rotation with the two left or right, applied when the target node and its parent are both right children. **4)** Zig-Zag Rotation is a double rotation with the left and its followed right, applied when the target node is a right child and its parent is a left child. **5)** Zig-Zag Rotation and **6)** Zag-Zig Rotation are vice versa in the opposite direction.
 
-| ![Zig Rotation](https://en.wikipedia.org/wiki/File:Splay_tree_zig.svg) | ![Zig-Zig Rotation](https://en.wikipedia.org/wiki/File:Zigzig.gif) | ![Zag-Zig Rotation](https://en.wikipedia.org/wiki/File:Zigzag.gif) |
+|![Zig Rotation](./assets/2.png)|![Zig-Zig Rotation](./assets/3.gif)|![Zag-Zig Rotation](./assets/4.gif)|
 |:--:|:--:|:--:|
-| Zig Rotation | Zig-Zig Rotation | Zag-Zig Rotation |
-$$\text{Fig #. Splay Tree Rotations}$$
+|Zig Rotation|Zig-Zig Rotation|Zag-Zig Rotation| \\
+$$\text{Fig 6. Splay Tree Rotations}$$
 
-``` plaintext
+``` python
 Splay(Tree, x):
     while x is not the root:
         if x's parent is the root: # Zig case
@@ -791,7 +809,7 @@ Specifically, **Vertex** is a set of nodes, **Edge** is a set of a line between 
 
 **Eccentricity** is the maximum distance between a vertex and all other vertices in a graph, usually denoted as $e(v) = \max(d(v, u))$.
 
-**Degree of Vertex** is the number of vertices which are adjacent (connected). In $n$ nodes, the range of the degree is $0 \leq \text{degree} \leq n-1$. The sum of the degree of all vertices is equal to twice the number of edges, $2|E|$.
+**Degree of Vertex** is the number of vertices which are adjacent (connected). In $n$ nodes, the range of the degree is $0 \leq \text{degree} \leq n-1$. The sum of the degree of all vertices is equal to twice the number of edges, $2\mid E \mid$.
 
 Graphs have three operations: 1) Add/Pop a vertex, 2) Add/Pop an edge, and 3) Display a vertex.
 
@@ -799,7 +817,7 @@ Graphs have three operations: 1) Add/Pop a vertex, 2) Add/Pop an edge, and 3) Di
 
 **Depth First Traversal** in a graph traverses in a depth-first manner, using a stack to remember vertices, a sequence of vertices to visit next. The algorithm is applied to find cycle, topological sorting, whether a graph is bipartite, and connected components. The complexity of DFS is $O(V + E)$ where $V$ is the number of vertices and $E$ is the number of edges, implementing as follows:
 
-``` plaintext
+``` python
 Rule 1: Visit the adjacent unvisited neighbor. 1) Mark it as visited, 2) print it, and 3) push it on a stack. (Pre-order traversal)
 Rule 2: If no adjacent vertex is found, pop up a vertex from the stack.
 Rule 3: Repeat rule 1 and 2 until the stack is empty.
@@ -824,7 +842,7 @@ DFS_recursive(G, s):
 
 **Breadth First Traversal** in a graph traverses in a breadth-first manner, using a queue to remember vertices, a sequence of vertices to visit next. The algorithm is applied to find the shortest path in a graph, MST of unweighted graph, GPS navigation, cycle in undirected graph, and all nodes within one connected component. The complexity of BFS is $O(V + E)$ where $V$ is the number of vertices and $E$ is the number of edges. The algorithm is:
 
-``` plaintext
+``` python
 Rule 1: Visit the adjacent unvisited neighbor. 1) Mark it as visited, 2) print it, and 3) push it on a queue. (Pre-order traversal)
 Rule 2: If no adjacent neighbor is found, remove the first vertex from the queue.
 Rule 3: Repeat rule 1 and 2 until the queue is empty.
@@ -849,17 +867,17 @@ BFS(G, s):
 
 While a graph $G$ is **Connected** if there is a **path** (not an adjacency) between every pair of vertices, **Disconnected Graph** is a graph which has no path between at least one pair of vertices. As summarized above, whether a graph is connected or disconnected can be determined by traversing the graph using DFS or BFS.
 
-|![Connected Graph](./assets/connected_graph.)]|![Disconnected Graph](./assets/disconnected_graph.)]|
+|![Connected Graph](./assets/connected_graph.png)]|![Disconnected Graph](./assets/disconnected_graph.png)]|
 |:--:|:--:|
 |Connected Graph|Disconnected Graph|
 
 **Complete Graph** refers to a graph where every vertex is connected to every other vertex. The number of edges in a complete graph with $n$ vertices is $\frac{n(n-1)}{2}$ which was the maximum number of edges in a simple graph.
 
-**Cycle Graph** is said to have $n$ length of cycle with $n$ nodes where $n \geq 3$. **Acyclic Graph** is a graph with no cycle.
+**Cycle Graph** is said to a graph which has a path that starts and ends at the same vertex without repeating any vertices and edges. **Acyclic Graph** is a graph with no cycle.
 
 A graph $G(V, E)$ is **Bipartite** if the vertices can be partitioned into two sets $V_1$ and $V_2$ such that edges connect nodes in $V_1$ to nodes in $V_2$. A node alone in a graph can be categorized into any of the two sets, considering as bipartite. As explained above, DFS and BFS are able to determine whether a graph is bipartite or not. **Complete Bipartite Graph** is a graph where every vertex in $V_1$ is connected to every vertex in $V_2$. The number of edges in a complete bipartite graph with $n$ vertices in $V_1$ and $m$ vertices in $V_2$ is exactly $n \times m$.
 
-When it comes to a graph $G(V, E)$, $G^-$ is a **Complement Graph** of $G$ where $G^-$ has the same set of vertices $V$ but different set of edges $E^-$. The edge $(u, v)$ is in $E^-$ if and only if $(u, v)$ is not in $E$. $E \cap E^- = \emptyset$, $E \cup E^- = V \times V$, and $|E| + |E^-| = |E(\text{Complete Graph})| = \frac{n(n-1)}{2}$ are valid. ([Practice](#mjx-eqn-C))
+When it comes to a graph $G(V, E)$, $G^-$ is a **Complement Graph** of $G$ where $G^-$ has the same set of vertices $V$ but different set of edges $E^-$. The edge $(u, v)$ is in $E^-$ if and only if $(u, v)$ is not in $E$. $E \cap E^- = \emptyset$, $E \cup E^- = V \times V$, and $\mid E \mid + \mid E^- \mid = \mid E(\text{Complete Graph}) \mid = \frac{n(n-1)}{2}$ are valid. ([Practice](#mjx-eqn-C))
 
 **Tree**, addressed in the previous section *G*, is a connected acyclic graph in terms of a graph theory. A tree has $n-1$ edges where $n$ is the number of vertices in the graph. Preserving a definition of **Simple Graph**, if an edge is added to a tree, it becomes a **Cycle Graph**. With the similarity between a tree and a graph, **Spanning Tree** is a sub-graph of a graph $G$ that is a tree containing all the vertices of $G$ in the graph. This special graph, also tree, is applied to civil network design, computer network design, and cluster analysis. In summary, **Spanning Tree** has four properties:
 
