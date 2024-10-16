@@ -10,6 +10,7 @@ Fall 2024, Computer Science and Engineering Department, The University of Texas 
         - Tue, Thu 17:30-18:30 || by appointment
 * Graduate Teaching Assistant (GTA): Wei Lin
     - wxl0991 at mavs dot uta dot edu
+    - Office ERB 204
 
 ## Expectation
 
