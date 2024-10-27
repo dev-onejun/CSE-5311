@@ -948,6 +948,115 @@ d & 0 & 0 & 0 & 0 \\
 \end{array}
 $$
 
+#### I. Weighted Graphs
+
+$\quad$ Weighted Graphs are graphs with edges that have weights. The weights of edges is often referred to as the costs of the edges.
+
+$\quad$ **Minimum Spanning Tree (MST)** was mentioned in *K. Graphs* during the tree section. **MST** is a spanning tree with the minimum total weights. To find the MST, three approaches, practically two which uses greedy algorithms, are introduced;
+
+**1) Naive Approach** \
+$\quad$ Like most of problems, the naive approach in finding the MST is to list all possible spanning trees for the graph, calculate the total weight for each spanning tree, and choose the one with the minimum weight. However this approach is far from efficient.
+
+**2) Kruskal's Algorithm** \
+$\quad$ The algorithm sorts all edges by their weights in increasing order. It sequentially picks the smallest weight edge and checks if the edge forms a cycle with the MST constructed so far. If it does, the edge is discarded. If it does not, the edge is added to the MST. Repeating this process until there are $V-1$ edges, the algorithm constructs the MST. The pseudo code for the algorithm is as follows:
+
+``` plaintext
+Kruskal(G):
+    A = {}
+
+    for each v in G.v:
+        MakeSet(v)
+
+    for each (u, v) in G.E ordered by weight:
+        if FindSet(u) != FindSet(v):
+            A = A U {(u, v)}
+            Union(FindSet(u), FindSet(v))
+
+    return A
+```
+
+**3) Prim's Algorithm** \
+$\quad$ The algorithm starts with initializing a tree which will become MST with a vertex chosen randomly. Then, it finds all edges which the current tree can connect to new vertices. Among the edges, the minimum weight edge is added to the tree. This process is repeated until there are $V-1$ edges. The pseudo code is
+
+``` plaintext
+Prim(G):
+    reach_set = {}
+    unreached_set = G.v
+    A = {}
+
+    while unreached_set is not empty:
+        find an edge e=(X, Y) which are
+            1) X in reach_set
+            2) Y in unreached_set
+            3) edge weight is the minimum
+
+        spanning_tree = spanning_tree U {e}
+        reach_set = reach_set U {Y}
+        unreached_set = unreached_set - {Y}
+```
+
+Prim's Algorithm is similar to Dijkstra's Algorithm which be tackled in the next section. However, they are different that Prim's Algorithm finds the minimum value at the moment, while Dijkstra's Algorithm finds the minimum value cumulatively. Furthermore, while the goal of Prim's Algorithm is to find the minimum spanning tree, the goal of Dijkstra's Algorithm is to find the shortest path.
+
+$\quad$ In graph theory, the **Shortest Path Problem** is the problem of finding a path between two vertices in a graph such that the sum of the weights of its constituent edges is minimized. In other words, the path that has the minimum total weight is the shortest path.
+
+The problem is categorized into four different problems: **1) Single Source Single Destination (SSSD)** is the problem with one start node and one destination node, **2) Single Source Multiple Destination (SSMD)** is the problem that has one start node and multiple destination nodes, **3) Multiple Source Single Destination (MSSD)** is for multiple start nodes and one destination node, and **4) Multiple Source Multiple Destination (MSMD)** refers to the problem with multiple start nodes and multiple destination nodes.
+
+$\quad$ Two algorithms are well-known for solving the Shortest Path Problem:
+
+**1) Dijkstra's Algorithm** \
+$\quad$ The algorithm is to find the shortest path from a single source to all other vertices in the graph (SSMD) which solves SSSD as well in the process. Marking all nodes as unvisited, the algorithm create a queue of all the unvisited nodes. Then, it creates a table which stores a distance value to each node, initializing the distance to the source node as 0 and the rest as infinity. Until the queue is empty, Dijkstra picks the node with the smallest value in the table and updates the value of the neighbor nodes in the table with the smaller value between the current value and the sum of the current node's distance and the weight of the edge to the neighbors. The pseudo code is as follows:
+
+``` plaintext
+Dijkstra(G, source):
+    dist = {}
+    Q = G.v
+
+    for each v in G.v:
+        dist[v] = infinity
+    dist[source] = 0
+
+    while Q is not empty:
+        u = vertex in Q with the smallest dist[u]
+        Q = Q - {u}
+
+        for each neighbor v of u:
+            alt = dist[u] + weight(u, v)
+            if alt < dist[v]:
+                dist[v] = alt
+
+    return dist, parent
+```
+
+However, Dijkstra's Algorithm does not work with negative weights. The algorithm repeats the loop if the cycle in the graph has negative weights for their edges. Although the negative weights barely exist, this limitation was needed to be addressed.
+
+**2) Bellman-Ford Algorithm** \
+$\quad$ Even though the algorithm is slower than Dijkstra's Algorithm, the Bellman-Ford Algorithm is capable of handling negative weights. The algorithm initializes the distance to the source node as 0 and the rest as infinity same as Dijkstra. It then repeats $V-1$ times, updating the distance of each node for all edges with the smaller value between the current value and the sum of the distance to the source node of the current edge and the weight of the edge. If there is no update in the distance table before $V-1$, the algorithm stops. In summary, the algorithms created a fixed array of all edges and iterates $V-1$ times updating the minimum distance to each node. The pseudo code is written as
+
+``` plaintext
+BellmanFord(G, source):
+    dist = {}
+    parent = {}
+
+    for each v in G.v:
+        dist[v] = infinity
+        parent[v] = None
+    dist[source] = 0
+
+    for i in range(G.v - 1):
+        for each edge (u, v) in G.E:
+            if dist[u] + weight(u, v) < dist[v]:
+                dist[v] = dist[u] + weight(u, v)
+                parent[v] = u
+
+    for each edge (u, v) in G.E:
+        if dist[u] + weight(u, v) < dist[v]:
+            return "Graph contains a negative-weight cycle"
+
+    return dist, parent
+```
+
+
+
 
 ### References
 
@@ -1001,7 +1110,7 @@ $$\tag*{}\label{B} \text{B. Red Black Tree}$$
 **2. A claim, "in Red and Black trees, the height of the longest path is less than or equal to 2 times the length of the shortest path," is true?** \
 $\qquad$ The claim is true since the longest path is the path with the maximum number of red nodes in rotation with black nodes, and the shortest path is the path with only black nodes. Therefore, if there are $b$ black nodes in a tree in the tree level perspective, the longest path has $2b$ nodes with the $b$ red nodes at most.
 
-$$\tag*{}\label{C} \text{[C] Complement Graph}$$
+$$\tag*{}\label{C} \text{C. Complement Graph}$$
 
 **a. Let $G$ be a simple graph with $9$ vertices and $12$ edges. Find the number of edges in the complement graph.**
 
