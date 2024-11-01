@@ -1,1 +1,4 @@
 temp.md
+
+__pycache__/
+venv/
