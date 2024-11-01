@@ -97,6 +97,6 @@ Implement and compare the following Minimum Spanning Trees algorithms: \
 
 **Bonus (10 points): Implement a GUI for your program which allows the user to:**
 
-Select an algorithm
-Enter the input size for selected algorithms and see the run time (in seconds or milliseconds...)
+Select an algorithm \
+Enter the input size for selected algorithms and see the run time (in seconds or milliseconds...) \
 Compare two or more (For the 4th project, maximum is 2) algorithms and see the difference in running times (in seconds or milliseconds...).
