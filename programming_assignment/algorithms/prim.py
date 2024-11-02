@@ -6,10 +6,10 @@ def prim_algorithm(graph: Graph) -> Graph:
     Prim's Algorithm Implementation
 
     Parameters:
-        graph: Graph - a graph to find the MST. Defined in graph.py
+    * graph: Graph - a graph to find the MST. Defined in graph.py
 
     Return:
-        mst_graph: Graph - a minimum spanning tree of the `graph`.
+    * mst_graph: Graph - a minimum spanning tree of the `graph`.
     """
 
     unreached_nodes: list[str] = graph.get_nodes().copy()
@@ -35,7 +35,6 @@ def prim_algorithm(graph: Graph) -> Graph:
         # Find the minimum edge in regards to the priority of weight, node1, and node2
         min_edge = min(candidate_edges, key=lambda x: (x[2], x[0], x[1]))
         mst_edges.append(min_edge)
-        print(min_edge)
 
         reached_node = min_edge[1] if min_edge[0] in reached_nodes else min_edge[0]
         reached_nodes.append(reached_node)
