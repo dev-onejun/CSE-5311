@@ -5,7 +5,10 @@ import networkx as nx
 
 from algorithms.graph import Graph
 from algorithms.prim import prim_algorithm
-from algorithms.kruskal import kruskal_algorithm
+from algorithms.kruskal import (
+    kruskal_algorithm,
+    kruskal_algorithm_with_path_compression,
+)
 
 
 def is_equal_edges(edges1, edges2) -> bool:
@@ -103,6 +106,25 @@ def test_kruskal_algorithm(num_nodes, num_edges):
     custom_mst_edges = kruskal_algorithm(graph).get_edges()
 
     assert is_equal_edges(custom_mst_edges, nx_mst_edges)
+
+
+@pytest.mark.parametrize(
+    "num_nodes, num_edges",
+    [
+        (5, 7),
+        (20, 30),
+        (100, 130),
+    ],
+)
+def test_kruskal_algorithm_with_path_compression(num_nodes, num_edges):
+    graph, _ = make_graph(num_nodes, num_edges)
+
+    kruskal_mst_edges = kruskal_algorithm(graph).get_edges()
+    kruskal_mst_edges_with_path_compression = kruskal_algorithm_with_path_compression(
+        graph
+    ).get_edges()
+
+    assert is_equal_edges(kruskal_mst_edges, kruskal_mst_edges_with_path_compression)
 
 
 @pytest.mark.parametrize(
