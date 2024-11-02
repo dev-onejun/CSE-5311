@@ -1,5 +1,7 @@
 # Programming Assignment 1
 
+[![Programming Assignment 1 Pytest](https://github.com/dev-onejun/CSE-5311/actions/workflows/pytest.yml/badge.svg?branch=feat%2Fp1)](https://github.com/dev-onejun/CSE-5311/actions/workflows/pytest.yml)
+
 **Wonjun Park** \
 Computer Science \
 University of Texas at Arlington \
