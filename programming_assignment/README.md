@@ -52,6 +52,14 @@ $ pip install -r requirements-test.txt
 $ python evaluation.py
 ```
 
+In addition, if you want to run several test cases concurrently, you can run the following command:
+
+``` bash
+# Ensure that you install `parallel` package on your system. (ex. apt install parallel)
+$ parallel -j 8 python evaluation.py --nodes {1} --edges {2} ::: 10 100 1000 :::+ 10 100 1000
+
+```
+
 The result will show the comparison between the Kruskal, Prim, and Optimized Kruskal algorithms in terms of the number of input sizes and the time complexity.
 
 ### DEMO
