@@ -7,6 +7,8 @@ Arlington, TX, USA
 
 ### OVERVIEW
 
+![System Architecture](../papers/assets/Programming-Assignment-1-System-Design.svg)
+
 ``` plaintext
 .
 ├── INSTRUCTION.md
@@ -21,9 +23,9 @@ Arlington, TX, USA
 ├── data
 ├── demo
 │   ├── css
-│   ├── html
-│   ├── scripts
-│   └── index.html
+│   ├── app.py
+│   ├── index.html
+│   └── pyscript.toml
 ├── evaluation.py
 ├── requirements-dev.txt
 ├── requirements-test.txt
@@ -32,7 +34,7 @@ Arlington, TX, USA
     └── test_algorithms.py
 ```
 
-+ algorithms: The module for the Minimum Spanning Tree algorithms
++ algorithms: The manually implemented module for the Minimum Spanning Tree algorithms
 + tests: The test cases for the algorithms
 + demo: The directory for the demo
 
