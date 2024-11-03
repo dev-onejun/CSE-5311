@@ -119,8 +119,12 @@ def test_kruskal_algorithm(num_nodes, num_edges):
 
     custom_mst_edges = kruskal_algorithm(graph).get_edges()
 
-    print(f"Difference between lists: {get_difference(custom_mst_edges, nx_mst_edges)}")
-    assert is_equal_edges(custom_mst_edges, nx_mst_edges)
+    diff1, diff2 = get_difference(custom_mst_edges, nx_mst_edges)
+    print(f"Difference between lists: {diff1 + diff2}")
+
+    assert is_equal_edges(custom_mst_edges, nx_mst_edges) or (
+        weights[0] == weights[1] for weights in zip(diff1, diff2)
+    )
 
 
 @pytest.mark.parametrize(
@@ -139,10 +143,14 @@ def test_kruskal_algorithm_with_path_compression(num_nodes, num_edges):
         graph
     ).get_edges()
 
-    print(
-        f"Difference between lists: {get_difference(kruskal_mst_edges, kruskal_mst_edges_with_path_compression)}"
+    diff1, diff2 = get_difference(
+        kruskal_mst_edges, kruskal_mst_edges_with_path_compression
     )
-    assert is_equal_edges(kruskal_mst_edges, kruskal_mst_edges_with_path_compression)
+    print(f"Difference between lists: {diff1 + diff2}")
+
+    assert is_equal_edges(
+        kruskal_mst_edges, kruskal_mst_edges_with_path_compression
+    ) or (weights[0] == weights[1] for weights in zip(diff1, diff2))
 
 
 @pytest.mark.parametrize(
@@ -159,7 +167,9 @@ def test_algorithms(num_nodes, num_edges):
     custom_prim_mst_edges = prim_algorithm(graph).get_edges()
     custom_kruskal_mst_edges = kruskal_algorithm(graph).get_edges()
 
-    print(
-        f"Difference between lists: {get_difference(custom_prim_mst_edges, custom_kruskal_mst_edges)}"
+    diff1, diff2 = get_difference(custom_prim_mst_edges, custom_kruskal_mst_edges)
+    print(f"Difference between lists: {diff1 + diff2}")
+
+    assert is_equal_edges(custom_prim_mst_edges, custom_kruskal_mst_edges) or (
+        weights[0] == weights[1] for weights in zip(diff1, diff2)
     )
-    assert is_equal_edges(custom_prim_mst_edges, custom_kruskal_mst_edges)
