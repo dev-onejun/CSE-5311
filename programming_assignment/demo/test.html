@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PyScript Input Demo</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+</head>
+<body>
+    <input type="text" id="name-input" placeholder="Enter your name">
+    <button id="greet-button" py-click="greet()">Greet</button>
+    <p id="output"></p>
+
+    <py-script config=>
+        from pyscript import Element
+
+        def greet():
+            # Get the input element and its value
+            input_element = Element("name-input")
+            name = input_element.value
+
+            # Get the output element and update its text
+            output_element = Element("output")
+            if name.strip():
+                output_element.write(f"Hello, {name}!")
+            else:
+                output_element.write("Please enter a name!")
+
+            # Clear the input field
+            input_element.value = ""
+    </py-script>
+</body>
+</html>

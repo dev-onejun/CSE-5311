@@ -1,0 +1,14 @@
+name = "Minimum Spanning Tree GUI Implementation"
+description = "An web application showing the minimum spanning tree from a graph with PyScript."
+packages = [
+    "matplotlib",
+    "networkx",
+]
+[files]
+"{FROM}" = "https://dev-onejun.github.io/CSE-5311/programming_assignment"
+"{TO}" = "./algorithms"
+"{FROM}/algorithms/__init__.py" = "{TO}/__init__.py"
+"{FROM}/algorithms/disjointset.py" = "{TO}/disjointset.py"
+"{FROM}/algorithms/graph.py" = "{TO}/graph.py"
+"{FROM}/algorithms/kruskal.py" = "{TO}/kruskal.py"
+"{FROM}/algorithms/prim.py" = "{TO}/prim.py"
