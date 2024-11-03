@@ -78,7 +78,7 @@ The above command will generate random graphs (num_nodes, num_edges) as (10, 20)
 
 ### DEMO
 
-[LINK](https://dev-onejun.github.io/CSE-5311/demo/programming_assignment_1/demo/index.html)
+[LINK](https://dev-onejun.github.io/CSE-5311/programming_assignment/demo)
 
 ### REPORT
 
