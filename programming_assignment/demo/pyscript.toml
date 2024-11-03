@@ -5,7 +5,7 @@ packages = [
     "networkx",
 ]
 [files]
-"{FROM}" = "http://localhost:10000"
+"{FROM}" = "https://dev-onejun.github.io/CSE-5311/programming_assignment"
 "{TO}" = "./algorithms"
 "{FROM}/algorithms/__init__.py" = "{TO}/__init__.py"
 "{FROM}/algorithms/disjointset.py" = "{TO}/disjointset.py"
