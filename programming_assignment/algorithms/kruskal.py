@@ -2,7 +2,7 @@ from .graph import Graph
 from .disjointset import DisjointSet
 
 
-def kruskal_algorithm(graph: Graph) -> Graph:
+def kruskal_algorithm(graph: Graph) -> list[Graph]:
     """
     Kruskal's algorithm to find the minimum spanning tree of a graph
 
@@ -26,10 +26,17 @@ def kruskal_algorithm(graph: Graph) -> Graph:
         if not mst.has_cycle(edge=edge):
             mst.add_edge(edge)
 
-    return mst
+    mst_edges = mst.get_edges()
+    mst_steps = [mst_edges[:i] for i in range(1, len(mst_edges) + 1)]
+    mst_graphs: list[Graph] = []
+    for step in mst_steps:
+        mst_graph = Graph(nodes=mst.get_nodes(), edges=step)
+        mst_graphs.append(mst_graph)
+
+    return mst_graphs
 
 
-def kruskal_algorithm_with_path_compression(graph: Graph) -> Graph:
+def kruskal_algorithm_with_path_compression(graph: Graph) -> list[Graph]:
     """
     Kruskal's algorithm to find the minimum spanning tree of a graph with path compression
 
@@ -56,4 +63,11 @@ def kruskal_algorithm_with_path_compression(graph: Graph) -> Graph:
             mst.add_edge(edge)
             disjoint_set.union(edge[0], edge[1])
 
-    return mst
+    mst_edges = mst.get_edges()
+    mst_steps = [mst_edges[:i] for i in range(1, len(mst_edges) + 1)]
+    mst_graphs: list[Graph] = []
+    for step in mst_steps:
+        mst_graph = Graph(nodes=mst.get_nodes(), edges=step)
+        mst_graphs.append(mst_graph)
+
+    return mst_graphs

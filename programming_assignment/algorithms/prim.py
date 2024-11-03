@@ -1,7 +1,7 @@
 from .graph import Graph
 
 
-def prim_algorithm(graph: Graph) -> Graph:
+def prim_algorithm(graph: Graph) -> list[Graph]:
     """
     Prim's Algorithm Implementation
 
@@ -39,6 +39,10 @@ def prim_algorithm(graph: Graph) -> Graph:
         reached_node = min_edge[1] if min_edge[0] in reached_nodes else min_edge[0]
         reached_nodes.append(reached_node)
 
-    mst_graph: Graph = Graph(nodes=reached_nodes, edges=mst_edges)
+    mst_steps = [mst_edges[:i] for i in range(1, len(mst_edges) + 1)]
+    mst_graphs: list[Graph] = []
+    for step in mst_steps:
+        mst_graph = Graph(nodes=reached_nodes, edges=step)
+        mst_graphs.append(mst_graph)
 
-    return mst_graph
+    return mst_graphs
