@@ -6,11 +6,9 @@ import networkx as nx
 from pyscript import display, document
 from pyscript.web import page
 
-from algorithms import Graph
-from algorithms import (
-    prim_algorithm,
-    kruskal_algorithm_with_path_compression,
-)
+from algorithms.graph import Graph
+from algorithms.prim import prim_algorithm
+from algorithms.kruskal import kruskal_algorithm_with_path_compression
 
 
 def make_graph(num_nodes: int, num_edges: int) -> tuple[Graph, nx.Graph]:
