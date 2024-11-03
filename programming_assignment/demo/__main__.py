@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 from pyscript import display, document
+from pyscript.web import page
 
 from algorithms import Graph
 from algorithms import (
@@ -28,16 +29,8 @@ def make_graph(num_nodes: int, num_edges: int) -> tuple[Graph, nx.Graph]:
     return Graph(nodes, edges), nx_graph
 
 
-def generate(event):
-    num_nodes = document.querySelector("#num_nodes").value
-    num_edges = document.querySelector("#num_edges").value
-
-    graph, nx_graph = make_graph(int(num_nodes), int(num_edges))
-
-    mst_prim = prim_algorithm(graph)[-1]
-    mst_kruskal = kruskal_algorithm_with_path_compression(graph)[-1]
-
-    num_steps = len(mst_prim.get_edges())
+def make_figure(mst: Graph, nx_graph: nx.Graph):
+    num_steps = len(mst.get_edges())
     cols = 3
     rows = (num_steps + cols - 1) // cols
 
@@ -47,7 +40,7 @@ def generate(event):
     pos = nx.spring_layout(nx_graph)
 
     i, mst_so_far = 0, []  # Keep track of edges added to the MST
-    for i, (u, v, weight) in enumerate(mst_prim.get_edges()):
+    for i, (u, v, weight) in enumerate(mst.get_edges()):
         u, v = int(u), int(v)
         mst_so_far.append((u, v))
 
@@ -82,12 +75,26 @@ def generate(event):
         axes[j].axis("off")
     plt.tight_layout()
 
-    display(fig, target="mpl")
+    return fig
 
-    """
-    fig1, ax1 = plt.subplots()
-    ax1.set_aspect("equal")
-    tpc = ax1.tripcolor(triang, z, shading="flat")
-    fig1.colorbar(tpc)
-    ax1.set_title("tripcolor of Delaunay triangulation, flat shading")
-    """
+
+def generate(event):
+    num_nodes = document.querySelector("#num_nodes").value
+    num_edges = document.querySelector("#num_edges").value
+
+    graph, nx_graph = make_graph(int(num_nodes), int(num_edges))
+
+    mst_prim = prim_algorithm(graph)
+    mst_kruskal = kruskal_algorithm_with_path_compression(graph)
+
+    prim_fig = make_figure(mst_prim, nx_graph)
+    # prim_fig.suptitle("Prim's Algorithm", fontsize=16)
+    kruskal_fig = make_figure(mst_kruskal, nx_graph)
+    # kruskal_fig.suptitle("Kruskal's Algorithm", fontsize=16)
+
+    fig_titles = page.find(".fig-title")
+    for fig_title in fig_titles:
+        fig_title.style["display"] = "block"
+
+    display(prim_fig, target="prim")
+    display(kruskal_fig, target="kruskal")

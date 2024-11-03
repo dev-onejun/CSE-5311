@@ -69,3 +69,10 @@ nav {
     color: #000000;
     background-color: #f0ab3c;
 }
+
+.fig-title {
+    display: None;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0.5em 0;
+}
