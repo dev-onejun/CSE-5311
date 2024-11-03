@@ -57,7 +57,7 @@ def make_graph(num_nodes, num_edges):
     return graph, nx_graph
 
 
-def get_difference(edge1, edge2) -> list:
+def get_difference(edge1, edge2) -> tuple[list, list]:
     """
     Get the difference between two lists of edges
 
@@ -70,7 +70,7 @@ def get_difference(edge1, edge2) -> list:
     """
     diff1 = [item for item in edge1 if item not in edge2]
     diff2 = [item for item in edge2 if item not in edge1]
-    return diff1 + diff2
+    return diff1, diff2
 
 
 @pytest.mark.parametrize(
@@ -90,7 +90,7 @@ def test_prim_algorithm(num_nodes, num_edges):
     nx_mst_edges = nx_mst_graph.edges(data=True)
     nx_mst_edges = [(str(u), str(v), data["weight"]) for u, v, data in nx_mst_edges]
 
-    custom_mst_edges = prim_algorithm(graph).get_edges()
+    custom_mst_edges = prim_algorithm(graph)[-1].get_edges()
 
     # When the last minimum edge exists as two different edge, like (2,4, 78), (2,3,78),
     # two algorithms return different results
@@ -117,7 +117,7 @@ def test_kruskal_algorithm(num_nodes, num_edges):
     nx_mst_edges = nx_mst_graph.edges(data=True)
     nx_mst_edges = [(str(u), str(v), data["weight"]) for u, v, data in nx_mst_edges]
 
-    custom_mst_edges = kruskal_algorithm(graph).get_edges()
+    custom_mst_edges = kruskal_algorithm(graph)[-1].get_edges()
 
     print(f"Difference between lists: {get_difference(custom_mst_edges, nx_mst_edges)}")
     assert is_equal_edges(custom_mst_edges, nx_mst_edges)
@@ -134,10 +134,10 @@ def test_kruskal_algorithm(num_nodes, num_edges):
 def test_kruskal_algorithm_with_path_compression(num_nodes, num_edges):
     graph, _ = make_graph(num_nodes, num_edges)
 
-    kruskal_mst_edges = kruskal_algorithm(graph).get_edges()
+    kruskal_mst_edges = kruskal_algorithm(graph)[-1].get_edges()
     kruskal_mst_edges_with_path_compression = kruskal_algorithm_with_path_compression(
         graph
-    ).get_edges()
+    )[-1].get_edges()
 
     print(
         f"Difference between lists: {get_difference(kruskal_mst_edges, kruskal_mst_edges_with_path_compression)}"
@@ -156,8 +156,8 @@ def test_kruskal_algorithm_with_path_compression(num_nodes, num_edges):
 def test_algorithms(num_nodes, num_edges):
     graph, _ = make_graph(num_nodes, num_edges)
 
-    custom_prim_mst_edges = prim_algorithm(graph).get_edges()
-    custom_kruskal_mst_edges = kruskal_algorithm(graph).get_edges()
+    custom_prim_mst_edges = prim_algorithm(graph)[-1].get_edges()
+    custom_kruskal_mst_edges = kruskal_algorithm(graph)[-1].get_edges()
 
     print(
         f"Difference between lists: {get_difference(custom_prim_mst_edges, custom_kruskal_mst_edges)}"
