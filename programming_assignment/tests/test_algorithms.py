@@ -57,7 +57,7 @@ def make_graph(num_nodes, num_edges):
     return graph, nx_graph
 
 
-def get_difference(edge1, edge2) -> list:
+def get_difference(edge1, edge2) -> tuple[list, list]:
     """
     Get the difference between two lists of edges
 
@@ -70,7 +70,7 @@ def get_difference(edge1, edge2) -> list:
     """
     diff1 = [item for item in edge1 if item not in edge2]
     diff2 = [item for item in edge2 if item not in edge1]
-    return diff1 + diff2
+    return diff1, diff2
 
 
 @pytest.mark.parametrize(
