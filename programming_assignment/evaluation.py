@@ -105,7 +105,7 @@ def main():
 
                 start_time = time.time()
 
-                _ = find_mst(graph)
+                find_mst(graph)
 
                 end_time = time.time()
 
