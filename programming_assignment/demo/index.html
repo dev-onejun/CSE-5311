@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.9.2/core.css">
+        <link rel="stylesheet" href="./css/main.css" />
+
+        <script type="module" src="https://pyscript.net/releases/2024.9.2/core.js"></script>
+        <script type="py" src="./__main__.py" config="./pyscript.toml"></script>
+
+        <!-- for splashscreen -->
+        <style>
+            #loading { outline: none; border: none; background: transparent }
+        </style>
+        <script type="module">
+            const loading = document.getElementById('loading');
+            addEventListener('py:ready', () => loading.close());
+            loading.showModal();
+        </script>
+
+        <title>CSE-5311 P1</title>
+    </head>
+
+    <body>
+        <dialog id="loading">
+            <h1>Loading...</h1>
+        </dialog>
+
+        <nav class="navbar" style="background-color: #000000">
+            <div class="app-header">
+                <a class="title" href="" style="color: #f0ab3c">Minimum Spanning Tree Implementation</a> <span class="title" style="color: #f0ab3c"> - Wonjun Park</span>
+            </div>
+        </nav>
+
+        <div align="center">
+            <p><span>the number of nodes in the graph</span>
+                <input type="number" id="num_nodes" placeholder="# Nodes" class="form" /></p>
+            <p><span>the number of edges in the graph</span>
+                <input type="number" id="num_edges" placeholder="# Edges" class="form" /></p>
+            <button class="form" py-click="generate">Generate</button>
+        </div>
+
+        <section class="pyscript" display="">
+            <div id="mpl" align="center"></div>
+        </section>
+
+    </body>
+
+</html>
