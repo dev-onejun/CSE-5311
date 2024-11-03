@@ -8,8 +8,7 @@ from algorithms import (
 )
 
 from argparse import ArgumentParser
-import time
-import random
+import time, random, pickle, os
 
 import networkx as nx
 
@@ -34,29 +33,35 @@ def get_args():
     parser.add_argument(
         "--algorithm",
         type=str,
+        nargs="+",
         default=["prim", "optimized_kruskal"],
         help="Algorithm to evaluate: prim, kruskal, optimized_kruskal",
+    )
+    parser.add_argument(
+        "--generate",
+        type=bool,
+        default=False,
+        help="If specified, generate the graph. Otherwise, use the pre-generated graph in the data folder",
     )
 
     return parser.parse_args()
 
 
-def main():
-    args = get_args()
+def save_graph_to_file(graph: Graph):
+    with open(
+        f"data/graph_{len(graph.get_nodes())}_{len(graph.get_edges())}.pkl", "wb"
+    ) as f:
+        pickle.dump(graph, f)
 
-    num_nodes_list, num_edges_list = args.nodes, args.edges
 
-    find_mst_algorithms = []
-    if "prim" in args.algorithm:
-        find_mst_algorithms.append(prim_algorithm)
-    if "kruskal" in args.algorithm:
-        find_mst_algorithms.append(kruskal_algorithm)
-    if "optimized_kruskal" in args.algorithm:
-        find_mst_algorithms.append(kruskal_algorithm_with_path_compression)
+def load_graph_from_file(path: str):
+    with open(path, "rb") as f:
+        graph = pickle.load(f)
+    return graph
 
+
+def generate_graph(num_nodes_list: list, num_edges_list: list):
     for num_nodes, num_edges in zip(num_nodes_list, num_edges_list):
-        print(f"Number of nodes: {num_nodes}, Number of edges: {num_edges}")
-
         nodes = [str(i) for i in range(num_nodes)]
         edges = []
 
@@ -70,18 +75,44 @@ def main():
             edges.append((str(u), str(v), weight))
 
         graph = Graph(nodes, edges)
+        save_graph_to_file(graph)
 
-        for find_mst in find_mst_algorithms:
-            start_time = time.time()
 
-            find_mst(graph)
+def main():
+    args = get_args()
 
-            end_time = time.time()
+    find_mst_algorithms = []
+    if "prim" in args.algorithm:
+        find_mst_algorithms.append(prim_algorithm)
+    if "kruskal" in args.algorithm:
+        find_mst_algorithms.append(kruskal_algorithm)
+    if "optimized_kruskal" in args.algorithm:
+        find_mst_algorithms.append(kruskal_algorithm_with_path_compression)
 
-            execution_time = end_time - start_time
-            print(
-                f"\t Algorithm {find_mst.__name__} Execution time: {execution_time} seconds"
-            )
+    if args.generate:
+        num_nodes_list, num_edges_list = args.nodes, args.edges
+        # num_edges_list = [2**num_nodes for num_nodes in num_nodes_list]
+        generate_graph(num_nodes_list, num_edges_list)
+    else:
+        graph_paths = os.listdir("data")
+        graphs = [load_graph_from_file(f"data/{path}") for path in graph_paths]
+
+        for graph in graphs:
+            for find_mst in find_mst_algorithms:
+                print(
+                    f"Graph with {len(graph.get_nodes())} nodes and {len(graph.get_edges())} edges"
+                )
+
+                start_time = time.time()
+
+                find_mst(graph)
+
+                end_time = time.time()
+
+                execution_time = end_time - start_time
+                print(
+                    f"\t Algorithm {find_mst.__name__} Execution time: {execution_time} seconds"
+                )
 
 
 if __name__ == "__main__":

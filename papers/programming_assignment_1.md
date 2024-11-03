@@ -69,6 +69,12 @@ All codes are in the `programming_assignment` repository,
 
 #### A. Numeric Results
 
+$\quad$ .
+
+However, it is hard to randomly create that a graph is connected since the number of edges increases exponentially as the number of vertices increases. Specifically, the probability that a graph is connected becomes lower as the number of nodes grows.
+
+evaluation.py
+
 #### B. Demo
 
 ... The link to the demo is in the *APPENDIX* section.
