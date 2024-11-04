@@ -91,7 +91,10 @@ def main():
 
     if args.generate:
         num_nodes_list, num_edges_list = args.nodes, args.edges
-        # num_edges_list = [2**num_nodes for num_nodes in num_nodes_list]
+        '''
+        from math import comb
+        num_edges_list = [comb(num_nodes, 2) for num_nodes in num_nodes_list]
+        '''
         generate_graph(num_nodes_list, num_edges_list)
     else:
         graph_paths = os.listdir("data")
