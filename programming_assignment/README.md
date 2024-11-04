@@ -7,6 +7,8 @@ Arlington, TX, USA
 
 ### OVERVIEW
 
+![System Architecture](../papers/assets/Programming-Assignment-1-System-Design.svg)
+
 ``` plaintext
 .
 ├── INSTRUCTION.md
@@ -21,9 +23,9 @@ Arlington, TX, USA
 ├── data
 ├── demo
 │   ├── css
-│   ├── html
-│   ├── scripts
-│   └── index.html
+│   ├── app.py
+│   ├── index.html
+│   └── pyscript.toml
 ├── evaluation.py
 ├── requirements-dev.txt
 ├── requirements-test.txt
@@ -32,7 +34,7 @@ Arlington, TX, USA
     └── test_algorithms.py
 ```
 
-+ algorithms: The module for the Minimum Spanning Tree algorithms
++ algorithms: The manually implemented module for the Minimum Spanning Tree algorithms
 + tests: The test cases for the algorithms
 + demo: The directory for the demo
 
@@ -78,7 +80,7 @@ The above command will generate random graphs (num_nodes, num_edges) as (10, 20)
 
 ### DEMO
 
-[LINK](https://dev-onejun.github.io/CSE-5311/demo/programming_assignment_1/demo/index.html)
+[LINK](https://dev-onejun.github.io/CSE-5311/programming_assignment/demo)
 
 ### REPORT
 
