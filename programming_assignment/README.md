@@ -78,6 +78,8 @@ $ python evaluation.py --nodes 10 20 30 --edges 20 40 60 --generate
 
 The above command will generate random graphs (num_nodes, num_edges) as (10, 20), (20, 40), and (30, 60) and store them in the `data` directory.
 
+You can download the pre-generated data from the [link](https://1drv.ms/u/s!Ak9f7WgKWrGQi7ZC733bgsMzqhZUCA?e=tJGwba).
+
 ### DEMO
 
 [LINK](https://dev-onejun.github.io/CSE-5311/programming_assignment/demo)
