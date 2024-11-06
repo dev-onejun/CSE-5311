@@ -1,29 +1,8 @@
-# Approximation of Computational Cost: A Review of Algorithm Design and Analysis
-
-$$
-\mathbf{\text{Wonjun Park}} \\
-\text{Computer Science} \\
-\text{University of Texas at Arlington} \\
-\text{Arlington, TX, United States}
-$$
-
-##### *Abstract*
-
-$$
-\mathbf{\text{Acronym and Abbreviation}} \\
-\begin{array}{|c|c|}
-\hline
-\text{Binary Search Tree (BST)} & \text{Minimum Spanning Tree (MST)} \\
-\hline
-\text{} & \text{} \\
-\hline
-\end{array}
-$$
-
-##### Keywords
-
-**Minimum Spanning Tree**: A tree that connects all the vertices in a graph with the minimum possible total edge weight. The tree has $n-1$ edges where $n$ is the number of vertices in the graph.
-
+---
+two_columns: true
+title: "Approximation of Computational Cost: A Review of Algorithm Design and Analysis"
+abstract: ""
+---
 ### I. Introduction
 
 ### II. Literature Review
