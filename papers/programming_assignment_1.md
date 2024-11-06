@@ -1,3 +1,5 @@
+---
+title: '
 $$
 \begin{array}{c}
 \hline
@@ -17,6 +19,8 @@ $$
 \text{wxp7177@mavs.uta.edu}
 \end{array}
 $$
+'
+---
 
 ***Abstract*** \
 Among 4 types of given candidate projects, the project implemented project 4, Minimum Spanning Tree algorithms. The key part of the implementation which belongs to the `programming_asignment/algorithms` module only used Python without any packages and libraries. The project included Kruskal and Prim algorithms, the well-known algorithms for finding the minimum spanning tree from a given graph. Although the initial implementation of Kruskal algorithm succeeded to find the minimum spanning tree, the paper introduced the optimized method for the algorithm which clearly surpassed the initial implementation in terms of the number of iterations and the time complexity. A Graphical User Interface was also included in the project to visualize the results of the implemented algorithms.
