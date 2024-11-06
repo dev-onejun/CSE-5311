@@ -1,5 +1,5 @@
 ---
-title: '
+author: '
 $$
 \begin{array}{c}
 \hline
@@ -20,7 +20,6 @@ $$
 \end{array}
 $$
 '
-author: ""
 ---
 
 ***Abstract*** \
