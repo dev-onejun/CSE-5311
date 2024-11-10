@@ -1,6 +1,6 @@
 ---
 two-columns: false
-paper-title: "<h1>Approximation of Computational Cost: A Review of Algorithm Design and Analysis</h1>"
+paper-title: "Approximation of Computational Cost: A Review of Algorithm Design and Analysis"
 abstract: ""
 acronym_and_abbreviation: '
 $$
@@ -1052,6 +1052,120 @@ BellmanFord(G, source):
 
     return dist, parent
 ```
+
+#### J. Network Flow Problems
+
+* Ford-Fulkerson's Algorithm
+* Dinic's Algorithm
+
+(Update after fixing the computer)
+
+#### K. Process Scheduling
+
+**Algorithm Design** \
+$\quad$ When it comes to algorithm design, trade-offs between the most optimal solution and a solution which is good enough are inevitable to select. Specifically, Brute Force is the simplest to implement and able to find the most optimal solution, but the hardest to run. Divide and Conquer like Binary Search, Merge Sort, Heap Sort, and Quick Sort needs to break a problem into a smaller sub problems, combining the results to find the solution of the original problem. Greedy Algorithm such as Prim's, Kruskal's, and Dijkstra's, starts from the best partial solution and extends it to find the solution.
+
+$\quad$ Take the following situation for example: The next cycle for a given product is 26 weeks. We have ten possible projects which could be completed in that time, each with an expected number of weeks to complete the project and an expected increase in revenue. As a project manager, choose those projects which can be completed in the required amount of time which maximizes revnue. These are the projects:
+
+$$
+\begin{array}{|c|c|c|}
+\hline
+\mathbf{\text{Product ID}} & \mathbf{\text{Completion Time (weeks)}} & \mathbf{\text{Expected Revenue (1,000\$)}} \\
+\hline
+A & 15 & 210 \\
+\hline
+B & 12 & 220 \\
+\hline
+C & 10 & 180 \\
+\hline
+D & 9 & 120 \\
+\hline
+E & 8 & 160 \\
+\hline
+F & 7 & 170 \\
+\hline
+G & 5 & 90 \\
+\hline
+H & 4 & 40 \\
+\hline
+I & 3 & 60 \\
+\hline
+J & 1 & 10 \\
+\hline
+\end{array}
+$$
+
+If greedy algorithm is applied by selecting the project with time, Project A (15 weeks), C (10 weeks), and J (1 week) will be selected with a total revenue of $210 + 180 + 10 = 400,000. However, if the project with the highest revenue is selected, Project B (220K), C (180K), I (60K), and J (10K) will be selected with a total revenue of $220 + 180 + 60 + 10 = 470,000. This result is not still the most optimal solution.
+
+Let us make a new feature the expected revenue per week of development time. The table becomes
+
+$$
+\begin{array}{|c|c|}
+\hline
+\text{Product ID} & \text{Expected Revenue per Week (1,000\$ / week)} \\
+\hline
+A & 14 \\
+\hline
+B & 18.333 \\
+\hline
+C & 18 \\
+\hline
+D & 13.333 \\
+\hline
+E & 20 \\
+\hline
+F & 24.286 \\
+\hline
+G & 18 \\
+\hline
+H & 10 \\
+\hline
+I & 20 \\
+\hline
+J & 10 \\
+\hline
+\end{array}
+$$
+
+With this new feature, the greedy algorithm will select Project F (24.286K), E (20K), I (20K), G (18K), and J (10K) with a total revenue of $170 + 160 + 60 + 90 + 10 = 490,000. On the other hand, Brute Force which sees all possible combinations will select Project C(180K), E(160K), F(170K), J(10K) with a total revenue of $180 + 160 + 170 + 10 = 520,000 resulting in the most optimal solution.
+
+**Process Scheduling** \
+$\quad$ Process scheduling in processors has two perspectives: multiprogramming view and preemptive multitasking/time sharing. In the multiprogramming view, processes are run in a one sequence (1-2-3-4). In the preemptive multitasking/time sharing, processes are allowed to run for a short period of time and switch to another process (1-2-3-4-1-2-4). The objective is to minimize the total wait time for processes to be completed.
+
+$\quad$ Suppose to minimize the total wait time which is for processes to be completed in the multiprogramming view. The following table shows the time in milliseconds for each process.
+
+$$
+\begin{array}{|c|c|}
+\hline
+\mathbf{\text{Process } i} & \mathbf{\text{Time } t_i \text{(ms)}} \\
+\hline
+1 & 15 \\
+\hline
+2 & 8 \\
+\hline
+3 & 3 \\
+\hline
+4 & 10 \\
+\hline
+\end{array}
+$$
+
+Using greedy algorithm with the shortest running time first, the total wait time is $3 + 11 + 21 + 36 = 71$ ms which is the most optimal solution.
+
+``` mermaid
+gantt
+    title Process Execution Timeline
+    dateFormat  X
+    axisFormat  %L ms
+    section Processes
+    Process 3 :done, p3, 0, 3ms
+    Process 2 :done, p2, after p3, 8ms
+    Process 4 :done, p4, after p2, 10ms
+    Process 1 :done, p1, after p4, 15ms
+```
+
+The reason that greedy algorithm gives the optimal solution is mathmatically proved as follows. Let $i_1, i_2, i_3, i_4$ be the order of processes where each process is allocated to each order. When the wait time of each process is written as $t_{i1}, t_{i2}, t_{i3}, t_{i4}$ respectively, the total wait time is derived as $4(t_{i1}) + 3(t_{i2}) + 2(t_{i3}) + 1(t_{i4})$. Therefore, to minimize the total wait time, it is proved that starting from the shortest process is the most efficient.
+
 
 
 
