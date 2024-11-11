@@ -147,9 +147,10 @@ $\quad$ However, it was hard to randomly create that a graph is connected since 
 
 $\quad$ The following plots showed the consumed time of the algorithms for the generated graphs. The number of vertices ranged from 2 to 10000. From the first plot, it was observed that the Kruskal algorithm was faster than the Prim algorithm as well as the optimized Kruskal algorithm significantly outperformed the initial Kruskal algorithm implementation which performed without disjoint set data structure. The second plot exclusively presented the performance of the optimized Kruskal algorithm that both the execution time and the number of vertices grew exponentially.
 
-|![Algorithms Comparison](./assets/algorithm_comparison.png)|![Optimized Kruskal Algorithm](./assets/optimized_kruskal.png)|
+| ![Algorithms Comparison](./assets/algorithm_comparison.png) | ![Optimized Kruskal Algorithm](./assets/optimized_kruskal.png) |
 |:---:|:---:|
-|Algorithms Comparison|Optimized Kruskal Algorithm|
+| Algorithms Comparison | Optimized Kruskal Algorithm |
+
 $\text{Fig. 2. Performance of Algorithms}$
 
 $\quad$ The generated graphs used in the experiment were zip-compressed to share, but exceeded the file size limit of GitHub. Therefore, the zip file was uploaded to OneDrive, a public storage cloud service, and the download link was provided in the *APPENDIX* section.
@@ -161,6 +162,7 @@ $\quad$ The figure 3 presented the usage of the GUI interface which implemented 
 |![Demo-1](./assets/demo-1.png)|![Demo-2](./assets/demo-2.png)|![Demo-3](./assets/demo-3.png)|![Demo-4](./assets/demo-4.png)|
 |:---:|:---:|:---:|:---:|
 |Step 1|Step 2|Step 3|Step 4|
+
 $\text{Fig. 3. Site Story Simulation}$
 
 ### IV. CONCLUSION
