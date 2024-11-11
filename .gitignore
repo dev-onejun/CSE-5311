@@ -1,7 +1,9 @@
 temp.md
 
 .DS_Store
+Gemfile.lock
 
+_site/
 __pycache__/
 venv/
 data/
