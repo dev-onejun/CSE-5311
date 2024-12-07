@@ -1166,7 +1166,15 @@ gantt
 
 The reason that greedy algorithm gives the optimal solution is mathmatically proved as follows. Let $i_1, i_2, i_3, i_4$ be the order of processes where each process is allocated to each order. When the wait time of each process is written as $t_{i1}, t_{i2}, t_{i3}, t_{i4}$ respectively, the total wait time is derived as $4(t_{i1}) + 3(t_{i2}) + 2(t_{i3}) + 1(t_{i4})$. Therefore, to minimize the total wait time, it is proved that starting from the shortest process is the most efficient.
 
+* .
 
+* .
+
+* https://en.wikipedia.org/wiki/NP_(complexity)
+    - https://en.wikipedia.org/wiki/Nondeterministic_Turing_machine
+    - Accept: A machine is said to accept an input if it reaches a designated accepting state (or final state) based on its set of rules, given that input.
+    - Reject: A machine rejects an input if it cannot reach an accepting state when processing the input or reaches a rejecting state.
+    - Verifiable: In computational theory, verifiable refers to the ability to check or confirm the correctness of a solution to a problem efficiently, typically in polynomial time by a deterministic Turing machine.
 
 
 
